@@ -3,5 +3,8 @@
 @tailwind utilities;
 
 body {
-    /* @apply overflow-y-hidden; */
+    @apply overflow-y-hidden;
+}
+.min-h-sceen {
+    min-height: 100vh;
 }
