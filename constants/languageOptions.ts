@@ -1,4 +1,6 @@
-export const languageOptions = [
+import { LanguageData } from "types/LanguageDropDown";
+
+export const languageOptions: LanguageData[] = [
     {
         id: 63,
         name: "JavaScript (Node.js 12.14.0)",
@@ -22,12 +24,6 @@ export const languageOptions = [
         name: "Basic (FBC 1.07.1)",
         label: "Basic (FBC 1.07.1)",
         value: "basic",
-    },
-    {
-        id: 75,
-        name: "C (Clang 7.0.1)",
-        label: "C (Clang 7.0.1)",
-        value: "c",
     },
     {
         id: 76,

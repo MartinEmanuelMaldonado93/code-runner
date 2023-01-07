@@ -1,4 +1,4 @@
-export type LanguageDropDown = {
+export type LanguageData = {
     id: number;
     name: string;
     label: string;

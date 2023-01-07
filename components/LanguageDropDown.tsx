@@ -1,17 +1,29 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, FC } from "react";
 import Select from "react-select";
-// import { customStyles } from "../constants/customStyles";
 import { languageOptions } from "../constants/languageOptions";
-import { LanguageDropDown } from "types/LanguageDropDown";
+import { languageDropdownStyle } from "../constants/languageDropdownStyle";
+import { LanguageData } from "types/LanguageDropDown";
 
-const LanguagesDropdown = ( onSelectChange : Dispatch<SetStateAction<LanguageDropDown>>) => {
+type props = {
+  onSelectChange: Dispatch<SetStateAction<LanguageData>>
+}
+const LanguagesDropdown: FC<props> = ({ onSelectChange }):JSX.Element => {
+
   return (
     <Select
       placeholder={`Filter By Category`}
+      isSearchable={true}
+      isClearable={true}
       options={languageOptions}
-    //   styles={customStyles}
       defaultValue={languageOptions[0]}
-      onChange={(selectedOption) => onSelectChange(selectedOption!)}
+      onChange={
+        (selectedOption ) => {
+          if (!selectedOption) return; 
+
+          onSelectChange(selectedOption);
+        }
+      }
+      styles={languageDropdownStyle}
     />
   );
 };
