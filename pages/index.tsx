@@ -14,15 +14,17 @@ import { languageOptions } from "constants/languageOptions";
 import { LanguageData } from "types/LanguageDropDown";
 import { OnChange } from "@monaco-editor/react";
 import { ThemeOption } from "types/ThemeOption";
+import { defineTheme } from "@components/DefineTheme";
+import axios from "axios";
 
 const javascriptDefault = `// some comment`;
 
 const Landing = () => {
-  const [code, setCode] = useState(javascriptDefault);
+  const [code, setCode] = useState<string>(javascriptDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
-  const [processing, setProcessing] = useState(null);
-  const [theme, setTheme] = useState<ThemeOption>({key:"", value:"", label:""});
+  const [processing, setProcessing] = useState<boolean>();
+  const [theme, setTheme] = useState<ThemeOption>({ key: "", value: "", label: "" });
   const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
 
   // const enterPress = useKeyPress("Enter");
@@ -49,15 +51,52 @@ const Landing = () => {
   };
 
   const handleCompile = () => {
-    // We will come to the implementation later in the code
+    setProcessing(true);
+    const formData = {
+      language_id: language.id,
+      source_code: Buffer.from(code, 'base64'),
+      stdin: Buffer.from(customInput, 'base64')
+    }
+    const options = {
+      method: "POST",
+      url: process.env.REACT_APP_RAPID_API_URL,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      },
+      data: formData,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res.data", response.data);
+        const token = response.data.token;
+        checkStatus(token);
+      })
+      .catch((err) => {
+        let error = err.response ? err.response.data : err;
+        setProcessing(false);
+        console.log(error);
+      });
   };
 
   const checkStatus = async (token: string) => {
-    // We will come to the implementation later in the code
+     
   };
 
-  function handleThemeChange(theme: string) {
-    // We will come to the implementation later in the code
+  function handleThemeChange(theme: ThemeOption) {
+    if (["light", "vs-dark"].includes(theme.value)) {
+      setTheme(theme);
+      return;
+    }
+
+    defineTheme(theme).then((_) => {
+      console.log("ready")
+    });
   }
   // useEffect(() => {
   //   defineTheme("oceanic-next").then((_) =>
@@ -107,7 +146,7 @@ const Landing = () => {
           <LanguagesDropdown onSelectChange={setLanguage} />
         </div>
         <div className="px-4 py-2">
-          <ThemeDropdown handleThemeChange={setTheme}/>
+          <ThemeDropdown handleThemeChange={handleThemeChange} />
         </div>
       </div>
       <div className="flex flex-row space-x-4 items-start px-4 py-4">
@@ -121,8 +160,6 @@ const Landing = () => {
             theme={theme}
           /> */}
         </div>
-
-
       </div>
       {/* <Footer /> */}
     </>

@@ -1,6 +1,9 @@
-import { StylesConfig } from "react-select";
+import { GroupBase, StylesConfig } from "react-select";
+import { LanguageData } from "types/LanguageDropDown";
+import { ThemeOption } from "types/ThemeOption";
 
-export const languageDropdownStyle: StylesConfig = {
+type SelectComponent = ThemeOption | LanguageData; 
+export const languageDropdownStyle: StylesConfig<any, false, GroupBase<any>> | undefined = {
     control: (styles) => ({
       ...styles,
       width: "100%",

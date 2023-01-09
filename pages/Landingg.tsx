@@ -14,14 +14,14 @@ export default function Home() {
   const [tests, setTests] = useState<boolean[]>();
   const url = "http://localhost:80";
 
-  const submitAnswer = (e: MouseEvent<HTMLDivElement, MouseEvent>) => {
-    axios
-      .post(url, { code })
-      .then(data => {
-        console.log(data.data.testCaseResults);
-        setTests(data.data.testCaseResults);
-      });
-  };
+  // const submitAnswer = (e: MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   axios
+  //     .post(url, { code })
+  //     .then(data => {
+  //       console.log(data.data.testCaseResults);
+  //       setTests(data.data.testCaseResults);
+  //     });
+  // };
   
   return (
     <>
@@ -82,7 +82,7 @@ export default function Home() {
           <div id="inputs" className='flex justify-evenly p-5'>
             <div className='btn btn-ghost grow '>Console</div>
             <div className='btn btn-secondary'>Run</div>
-            <div className='btn btn-primary' onClick={submitAnswer} >Submit Answer</div>
+            {/* <div className='btn btn-primary' onClick={submitAnswer} >Submit Answer</div> */}
           </div>
           <div id="results" className='flex'>
             { tests?.map((test, i) => {

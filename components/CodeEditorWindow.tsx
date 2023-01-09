@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useMemo, useState } from 'react';
 import Editor, { EditorProps } from "@monaco-editor/react";
 
 interface props extends EditorProps {
   code?:string,
 }
-const CodeEditorWindow:React.FC<props> = ({ onChange, language, theme, code }) => {
+const CodeEditorWindow: FC<props> = ({ onChange, language, theme, code }) => {
   const [valueCode, setValue] = useState(" ");
 
   const handleEditorChange = (value: string | undefined) => {
