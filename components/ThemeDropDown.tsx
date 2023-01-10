@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from "react";
 import Select, { ActionMeta, MultiValue, SingleValue, Theme } from "react-select";
-import ThemesList from "monaco-themes/themes/themelist.json";
+import ThemesListJson from "monaco-themes/themes/themelist.json";
 import { ThemeOption } from "types/ThemeOption";
 import { languageDropdownStyle } from "constants/languageDropdownStyle";
 
@@ -9,14 +9,15 @@ type props = {
     // handleThemeChange: Dispatch<SetStateAction<ThemeOption>>
     handleThemeChange: any
 }
-// const ThemeDropdown: FC<props> = ({ handleThemeChange, theme }) => {
-function ThemeDropdown({ handleThemeChange, theme }: props): JSX.Element {
-    const themesEntries: Array<[string, string]> = Object.entries(ThemesList);
-    const optionsMaped: Array<ThemeOption> = themesEntries.map(([Key, Name]) => ({
+const ThemeDropdown: FC<props> = ({ handleThemeChange, theme }) => {
+    const themesEntries: [string, string][] = Object.entries(ThemesListJson);
+
+    const optionsMaped: ThemeOption[] = themesEntries.map(([Key, Name]) => ({
         label: Name,
         value: Name,
         key: Key,
-    }));
+    } satisfies ThemeOption));
+
     const defaultOption: ThemeOption = {
         key: "GitHub Light",
         label: "GitHub Light",
@@ -24,17 +25,18 @@ function ThemeDropdown({ handleThemeChange, theme }: props): JSX.Element {
     }
 
     function onChange(newValue: SingleValue<ThemeOption> | MultiValue<ThemeOption>, actionMeta: ActionMeta<ThemeOption>) {
-        // if (!selectedOption) return;
+        const ThemeSelected = newValue as ThemeOption;
 
-        // console.log(selectedOption);
-        handleThemeChange(newValue);
+        // console.log(newValue);
+
+        handleThemeChange(ThemeSelected);
     }
     return (
         <Select
             placeholder="Select Theme"
             options={optionsMaped}
             onChange={onChange}
-            value={defaultOption}
+            defaultValue={defaultOption}
             styles={languageDropdownStyle}
         />
 

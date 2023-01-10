@@ -1,7 +1,5 @@
-type Status = {
-    id: number,
-    description: string,
-}
+import { Status } from "types/Status";
+
 export const status: Status[] = [
     {
         id: 1,

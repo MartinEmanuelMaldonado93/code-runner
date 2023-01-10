@@ -7,8 +7,8 @@ import { LanguageData } from "types/LanguageDropDown";
 type props = {
   onSelectChange: Dispatch<SetStateAction<LanguageData>>
 }
-// const LanguagesDropdown: FC<props> = ({ onSelectChange }): JSX.Element => {
-function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
+const LanguagesDropdown: FC<props> = ({ onSelectChange }): JSX.Element => {
+// function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
   return (
     <Select
       placeholder="Filter By Category"
@@ -17,7 +17,7 @@ function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
       options={
         languageOptions
       }
-      // defaultValue={languageOptions[0]}
+      defaultValue={languageOptions[0]}
       onChange={
         (selectedOption) => {
           if (!selectedOption) return;
