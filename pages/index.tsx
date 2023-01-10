@@ -20,6 +20,8 @@ import { javascriptCodeDefault } from "constants/javascriptCodeDefault";
 import OutputResults from "@components/OutputResults";
 import CustomInput from "@components/CustomInput";
 import { Status } from "types/Status";
+import ProblemDescription from "@components/ProblemDescription";
+import Footer from "@components/Footer";
 
 const Landing = () => {
   const [code, setCode] = useState<string>(javascriptCodeDefault);
@@ -145,11 +147,6 @@ const Landing = () => {
 
     });
   }
-  // useEffect(() => {
-  //   defineTheme("oceanic-next").then((_) =>
-  //     setTheme({ value: "oceanic-next", label: "Oceanic Next" })
-  //   );
-  // }, []);
 
   const showSuccessToast = (msg: string) => {
     toast.success(msg || `Compiled Successfully!`, {
@@ -188,45 +185,53 @@ const Landing = () => {
         pauseOnHover
       />
       {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
-      <div className="flex flex-row">
-        <div className="px-4 py-2">
-          <LanguagesDropdown onSelectChange={setLanguage} />
-        </div>
-        <div className="px-4 py-2">
-          <ThemeDropdown handleThemeChange={handleThemeChange} />
-        </div>
+      <div className="navbar text-xl normal-case gap-2 bg-base-200">
+        <div className="grow">Code runner </div>
+        <LanguagesDropdown onSelectChange={setLanguage} />
+        <ThemeDropdown handleThemeChange={handleThemeChange} />
       </div>
-      <div className="flex flex-row space-x-4 items-start px-4 py-4">
-        <div className="flex flex-col w-full h-full justify-start items-end">
-          <CodeEditorWindow
-            code={code}
-            onChange={onChange}
-            language={language?.value}
-            theme={theme.key}
-          />
+      <div id="editorSection" className="flex px-4 py-4">
+        <div id="description ">
+          <ProblemDescription>
+            \/**
+            * Problem: Binary Search: Search a sorted array for a target value.
+            */
+          </ProblemDescription>
+          <div className="rating">
+            <input type="radio" name="rating-1" className="mask mask-star" />
+            <input type="radio" name="rating-1" className="mask mask-star" checked />
+            <input type="radio" name="rating-1" className="mask mask-star" />
+            <input type="radio" name="rating-1" className="mask mask-star" />
+            <input type="radio" name="rating-1" className="mask mask-star" />
+          </div>
         </div>
-        <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
-          {/* <OutputResults outputDetails={outputDetails} /> */}
-          <div className="flex flex-col items-end">
-            {/* <CustomInput
+        <CodeEditorWindow
+          code={code}
+          onChange={onChange}
+          language={language.value}
+          theme={theme.key} />
+      </div>
+      <div id="outputSection" className="">
+        {/* <OutputResults outputDetails={outputDetails} /> */}
+        <div className="flex flex-col items-end">
+          {/* <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             /> */}
-            <button
-              onClick={handleCompile}
-              // disabled={!code}
-              className={
-                `btn
+          <button
+            onClick={handleCompile}
+            // disabled={!code}
+            className={
+              `btn
                 ${!code ? "opacity-50" : ""}`
-              }>
-              {processing ? "Processing..." : "Compile and Execute"}
-            </button>
-          </div>
-          {/* {outputDetails ?
-          <OutputResults outputDetails={outputDetails} /> : null} */}
+            }>
+            {processing ? "Processing..." : "Compile and Execute"}
+          </button>
         </div>
+        {/* {outputDetails ?
+          <OutputResults outputDetails={outputDetails} /> : null} */}
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

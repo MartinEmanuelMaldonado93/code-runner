@@ -14,16 +14,14 @@ const CodeEditorWindow: FC<props> = ({ onChange, language, theme, code="/// Happ
   };
 
   return (
-    <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
+    <div className="overlay rounded-md w-full h-full shadow-4xl">
       <Editor
-        height="85vh"
+        height="60vh"
         width={`100%`}
         language={language || "javascript"}
         value={valueCode}
         theme={theme}
-        onChange={
-          onChange
-        } 
+        onChange={onChange} 
       />
     </div>
   );
