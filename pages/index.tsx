@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 // import Footer from "./Footer";
 // import OutputWindow from "./OutputWindow";
 // import CustomInput from "./CustomInput";
-// import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "@components/ThemeDropDown";
 import LanguagesDropdown from "@components/LanguageDropDown";
 import CodeEditorWindow from "@components/CodeEditorWindow";
@@ -23,6 +22,8 @@ import { Status } from "types/Status";
 import ProblemDescription from "@components/ProblemDescription";
 import Footer from "@components/Footer";
 import { safeEncodeTo64 } from "utils";
+import { DataOutput } from "types/dataOutput";
+import OutputDetails from "@components/OutputDetails";
 
 const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
 const __HOST__ = "judge0-ce.p.rapidapi.com";
@@ -30,7 +31,7 @@ const __HOST__ = "judge0-ce.p.rapidapi.com";
 const Landing = () => {
 	const [code, setCode] = useState<string>(javascriptCodeDefault);
 	const [customInput, setCustomInput] = useState("");
-	const [outputDetails, setOutputDetails] = useState(null);
+	const [outputDetails, setOutputDetails] = useState<DataOutput>();
 	const [processing, setProcessing] = useState<boolean>();
 	const [theme, setTheme] = useState<ThemeOption>({
 		key: "vs-dark",
@@ -51,8 +52,10 @@ const Landing = () => {
 	// }, [ctrlPress, enterPress]);
 
 	const onChange: OnChange = (codeStr, event) => {
-		console.log("onchange from index");
-		console.log(codeStr, event);
+		// console.log("onchange from index");
+    // console.log(codeStr, event);
+    
+    setCode(codeStr??"");
 		// switch (action) {
 		//   case "code": {
 		//     console.log(data);
@@ -90,7 +93,6 @@ const Landing = () => {
 			.request(options)
 			.then(function (response) {
 				const token = response.data.token;
-				// console.log(token);
 				checkStatus(token);
 			})
 			.catch((err) => {
@@ -99,7 +101,11 @@ const Landing = () => {
 				console.log(err);
 			});
 	};
+	const fakeCompile = () => {
+		setProcessing(true);
 
+		const prom = new Promise((resolve, reject) => {});
+	};
 	const checkStatus = async (token: string) => {
 		const options = {
 			method: "GET",
@@ -110,31 +116,32 @@ const Landing = () => {
 				"X-RapidAPI-Key": __KEY__,
 			},
 		};
-    
-		try {
-			let response = await axios.request(options);
-			// const statusReceived = response.data.status as Status;
-			// const statusId = statusReceived.id;
-			let statusId = response.data.status?.id as number;
 
-			// Processed - we have a result
-			if ([1, 2].includes(statusId)) {
-				// still processing
+		try {
+			const response = await axios.request(options);
+			const dataOutput: DataOutput = response.data;
+			let statusId = dataOutput.status.id;
+			
+      if ([1, 2].includes(statusId)) {
 				setTimeout(() => {
 					checkStatus(token);
-				}, 2000);
+				}, 1000);
 				return;
 			}
 
-			// setProcessing(false);
-			// setOutputDetails(response.data);
-			showSuccessToast(`Compiled Successfully!`);
-			// console.log('response.data', response.data);
+      setProcessing(false);
+      if (statusId === 3) {
+        showSuccessToast(`Compiled Successfully!`);
+      }
+      else {
+        showErrorToast();
+      }
+      setOutputDetails(dataOutput);
 			return;
 		} catch (err) {
-			console.log("err", err);
 			setProcessing(false);
 			showErrorToast("err");
+			console.log("err", err);
 		}
 	};
 	// callback function
@@ -152,6 +159,17 @@ const Landing = () => {
 
 	const showSuccessToast = (msg: string) => {
 		toast.success(msg || `Compiled Successfully!`, {
+			position: "top-center",
+			autoClose: 2000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+	const showErrorToast = (msg?: string) => {
+		toast.error(msg || "Something went wrong! Please try again.", {
 			position: "top-right",
 			autoClose: 1000,
 			hideProgressBar: false,
@@ -161,20 +179,9 @@ const Landing = () => {
 			progress: undefined,
 		});
 	};
-	const showErrorToast = (msg: string) => {
-		toast.error(msg || `Something went wrong! Please try again.`, {
-			position: "top-right",
-			autoClose: 1000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-		});
-	};
-	// luxury, dracula
+	// fav luxury, dracula
 	return (
-		<div data-theme='dracula' className='h-screen flex flex-col'>
+		<div data-theme='dracula' className='h-screen flex flex-col overflow-auto'>
 			<ToastContainer
 				position='top-right'
 				autoClose={2000}
@@ -195,37 +202,9 @@ const Landing = () => {
 			<div id='editorSection' className='grow flex px-4 py-2'>
 				<div id='description '>
 					<ProblemDescription>
-						\/** * Problem: Binary Search: Search a sorted array for
-						a target value. */
+						<div className="text-lg">Problem:</div>
+						Binary Search: Search a sorted array for a target value.
 					</ProblemDescription>
-					<div className='rating' defaultChecked>
-						<input
-							type='radio'
-							name='rating-1'
-							className='mask mask-star'
-						/>
-						<input
-							type='radio'
-							name='rating-1'
-							className='mask mask-star'
-							checked
-						/>
-						<input
-							type='radio'
-							name='rating-1'
-							className='mask mask-star'
-						/>
-						<input
-							type='radio'
-							name='rating-1'
-							className='mask mask-star'
-						/>
-						<input
-							type='radio'
-							name='rating-1'
-							className='mask mask-star'
-						/>
-					</div>
 				</div>
 				<CodeEditorWindow
 					code={code}
@@ -235,26 +214,24 @@ const Landing = () => {
 				/>
 			</div>
 			<div id='outputSection' className=''>
-				{/* <OutputResults outputDetails={outputDetails} /> */}
 				<div className='flex flex-col items-end'>
 					{/* <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             /> */}
-					<div>{}</div>
 					<button
 						onClick={handleCompile}
 						// disabled={!code}
-						className={`btn btn-primary
-                ${!code ? "opacity-50" : ""}`}
+						className={`btn btn-primary ${
+							!code ? "opacity-50" : ""
+						}`}
 					>
-						{/* {processing ? "Processing..." : "Compile and Execute"} */}
-						Compile and Execute
+						{processing ? "Processing..." : "Compile and Execute"}
 					</button>
 				</div>
-
-				{/* {outputDetails ?
-          <OutputResults outputDetails={outputDetails} /> : null} */}
+				{outputDetails ? (
+					<OutputDetails outputDetails={outputDetails} />
+				) : null}
 			</div>
 			<Footer />
 		</div>
