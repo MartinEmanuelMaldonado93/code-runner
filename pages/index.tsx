@@ -68,6 +68,7 @@ const Landing = () => {
       method: "POST",
       // url: process.env.REACT_APP_RAPID_API_URL,
       // params: { base64_encoded: "true", fields: "*" },
+      "Access-Control-Allow-Origin": "https://localhost:3000",
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
@@ -83,7 +84,10 @@ const Landing = () => {
     const url =
       "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*";
     fetch(url, options)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response)
+
+      })
       // .then(response => console.log(response))
       .catch((err) => console.error(err));
     // axios
@@ -172,73 +176,93 @@ const Landing = () => {
       progress: undefined,
     });
   };
-  // luxury,
+  // luxury, dracula
   return (
-    <div data-theme="dracula" className="h-screen flex flex-col">
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
-      <div className="navbar text-xl normal-case gap-2 bg-base-200">
-        <div className="grow">Code runner ⚡</div>
-        <LanguagesDropdown onSelectChange={setLanguage} />
-        <ThemeDropdown handleThemeChange={handleThemeChange} />
-      </div>
-      <div id="editorSection" className="grow flex px-4 py-2">
-        <div id="description ">
-          <ProblemDescription>
-            \/** * Problem: Binary Search: Search a sorted array for a target
-            value. */
-          </ProblemDescription>
-          <div className="rating">
-            <input type="radio" name="rating-1" className="mask mask-star" />
-            <input
-              type="radio"
-              name="rating-1"
-              className="mask mask-star"
-              checked
-            />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-            <input type="radio" name="rating-1" className="mask mask-star" />
-          </div>
-        </div>
-        <CodeEditorWindow
-          code={code}
-          onChange={onChange}
-          language={language.value}
-          theme={theme.key}
-        />
-      </div>
-      <div id="outputSection" className="">
-        {/* <OutputResults outputDetails={outputDetails} /> */}
-        <div className="flex flex-col items-end">
-          {/* <CustomInput
+		<div data-theme='dracula' className='h-screen flex flex-col'>
+			<ToastContainer
+				position='top-right'
+				autoClose={2000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			{/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
+			<div className='navbar text-xl normal-case gap-2 bg-base-200'>
+				<div className='grow'>Code runner ⚡</div>
+				<LanguagesDropdown onSelectChange={setLanguage} />
+				<ThemeDropdown handleThemeChange={handleThemeChange} />
+			</div>
+			<div id='editorSection' className='grow flex px-4 py-2'>
+				<div id='description '>
+					<ProblemDescription>
+						\/** * Problem: Binary Search: Search a sorted array for
+						a target value. */
+					</ProblemDescription>
+					<div className='rating'>
+						<input
+							type='radio'
+							name='rating-1'
+							className='mask mask-star'
+						/>
+						<input
+							type='radio'
+							name='rating-1'
+							className='mask mask-star'
+							checked
+						/>
+						<input
+							type='radio'
+							name='rating-1'
+							className='mask mask-star'
+						/>
+						<input
+							type='radio'
+							name='rating-1'
+							className='mask mask-star'
+						/>
+						<input
+							type='radio'
+							name='rating-1'
+							className='mask mask-star'
+						/>
+					</div>
+				</div>
+				<CodeEditorWindow
+					code={code}
+					onChange={onChange}
+					language={language.value}
+					theme={theme.key}
+				/>
+			</div>
+			<div id='outputSection' className=''>
+				{/* <OutputResults outputDetails={outputDetails} /> */}
+				<div className='flex flex-col items-end'>
+					{/* <CustomInput
               customInput={customInput}
               setCustomInput={setCustomInput}
             /> */}
-          <button
-            onClick={handleCompile}
-            // disabled={!code}
-            className={`btn btn-primary
+          <div>
+            {}
+          </div>
+					<button
+						onClick={handleCompile}
+						// disabled={!code}
+						className={`btn btn-primary
                 ${!code ? "opacity-50" : ""}`}
-          >
-            {processing ? "Processing..." : "Compile and Execute"}
-          </button>
+					>
+						{processing ? "Processing..." : "Compile and Execute"}
+					</button>
         </div>
-        {/* {outputDetails ?
+        
+				{/* {outputDetails ?
           <OutputResults outputDetails={outputDetails} /> : null} */}
-      </div>
-      <Footer />
-    </div>
+			</div>
+			<Footer />
+		</div>
   );
 };
 export default Landing;
