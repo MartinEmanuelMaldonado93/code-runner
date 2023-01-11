@@ -1,29 +1,43 @@
-import { Dispatch, FC, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	Dispatch,
+	FC,
+	SetStateAction,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import Editor, { EditorProps, useMonaco } from "@monaco-editor/react";
 
 interface props extends EditorProps {
-  code?:string,
+	code?: string;
 }
-const CodeEditorWindow: FC<props> = ({ onChange, language, theme, code="/// Happy coding" }) => {
-  const [valueCode, setValue] = useState<string>(code);
-  const handleEditorChange = (value: string | undefined) => {
-    // value ??= "";
-    // console.warn(value);
-    // setValue(value);
-    // onChange!("code", value);
-  };
+const CodeEditorWindow: FC<props> = ({
+	onChange,
+	language,
+	theme,
+	code = "/// Happy coding",
+}) => {
+	const [valueCode, setValue] = useState<string>(code);
+	const handleEditorChange = (value: string | undefined) => {
+		// value ??= "";
+		// console.warn(value);
+		// setValue(value);
+		// onChange!("code", value);
+	};
 
-  return (
-    <div className="overlay rounded-md w-full h-full shadow-4xl">
-      <Editor
-        height="60vh"
-        width={`100%`}
-        language={language || "javascript"}
-        value={valueCode}
-        theme={theme}
-        onChange={onChange} 
-      />
-    </div>
-  );
+	return (
+		<div className='flex rounded-md w-full h-full shadow-4xl'>
+			<Editor
+				// height="65vh"
+				// width={`100%`}
+				language={language || "javascript"}
+				value={valueCode}
+				theme={theme}
+				onChange={onChange}
+			/>
+		</div>
+	);
 };
 export default CodeEditorWindow;

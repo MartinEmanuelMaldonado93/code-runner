@@ -11,7 +11,7 @@ import data from "./martin.json";
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse 
+  res: NextApiResponse
 ) {
   // const { userName } = req.query ;
   // res.status(200).json([{ name: userName },])
