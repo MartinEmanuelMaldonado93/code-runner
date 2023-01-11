@@ -22,162 +22,158 @@ import CustomInput from "@components/CustomInput";
 import { Status } from "types/Status";
 import ProblemDescription from "@components/ProblemDescription";
 import Footer from "@components/Footer";
+import { safeEncodeTo64 } from "utils";
+
+const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
+const __HOST__ = "judge0-ce.p.rapidapi.com";
 
 const Landing = () => {
-  const [code, setCode] = useState<string>(javascriptCodeDefault);
-  const [customInput, setCustomInput] = useState("");
-  const [outputDetails, setOutputDetails] = useState(null);
-  const [processing, setProcessing] = useState<boolean>();
-  const [theme, setTheme] = useState<ThemeOption>({
-    key: "vs-dark",
-    value: "vs-dark",
-    label: "vs-dark",
-  });
-  const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
+	const [code, setCode] = useState<string>(javascriptCodeDefault);
+	const [customInput, setCustomInput] = useState("");
+	const [outputDetails, setOutputDetails] = useState(null);
+	const [processing, setProcessing] = useState<boolean>();
+	const [theme, setTheme] = useState<ThemeOption>({
+		key: "vs-dark",
+		value: "vs-dark",
+		label: "vs-dark",
+	});
+	const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
 
-  // const enterPress = useKeyPress("Enter");
-  // const ctrlPress = useKeyPress("Control");
+	// const enterPress = useKeyPress("Enter");
+	// const ctrlPress = useKeyPress("Control");
 
-  // useEffect(() => {
-  //   if (enterPress && ctrlPress) {
-  //     console.log("enterPress", enterPress);
-  //     console.log("ctrlPress", ctrlPress);
-  //     handleCompile();
-  //   }
-  // }, [ctrlPress, enterPress]);
+	// useEffect(() => {
+	//   if (enterPress && ctrlPress) {
+	//     console.log("enterPress", enterPress);
+	//     console.log("ctrlPress", ctrlPress);
+	//     handleCompile();
+	//   }
+	// }, [ctrlPress, enterPress]);
 
-  const onChange: OnChange = (codeStr, event) => {
-    console.log("onchange from index");
-    console.log(codeStr, event);
-    // switch (action) {
-    //   case "code": {
-    //     console.log(data);
-    //     // setCode(data);
-    //     break;
-    //   }
-    //   default: {
-    //     console.warn("case not handled!", action, data);
-    //   }
-    // }
-  };
-  /** Send code to an API method POST */
-  const handleCompile = () => {
-    setProcessing(true);
+	const onChange: OnChange = (codeStr, event) => {
+		console.log("onchange from index");
+		console.log(codeStr, event);
+		// switch (action) {
+		//   case "code": {
+		//     console.log(data);
+		//     // setCode(data);
+		//     break;
+		//   }
+		//   default: {
+		//     console.warn("case not handled!", action, data);
+		//   }
+		// }
+	};
+	/** Send code to an API method POST */
+	const handleCompile = () => {
+		setProcessing(true);
 
-    const options = {
-      method: "POST",
-      // url: process.env.REACT_APP_RAPID_API_URL,
-      // params: { base64_encoded: "true", fields: "*" },
-      "Access-Control-Allow-Origin": "https://localhost:3000",
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d",
-      },
-      body: `{
-        "language_id": ${language.id},
-        "source_code": ${String(Buffer.from(code, "base64"))} ,
-        "stdin": ${String(Buffer.from(customInput, "base64"))}
-      }`,
-    };
-    const url =
-      "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*";
-    fetch(url, options)
-      .then((response) => {
-        console.log(response)
+		const formData = {
+			language_id: language.id,
+			source_code: safeEncodeTo64(code),
+			stdin: safeEncodeTo64(customInput),
+		};
+		const options = {
+			method: "POST",
+			url: "https://" + __HOST__ + "/submissions",
+			params: { base64_encoded: "true", fields: "*" },
+			headers: {
+				"content-type": "application/json",
+				"Content-Type": "application/json",
+				"X-RapidAPI-Key": __KEY__,
+				"X-RapidAPI-Host": __HOST__,
+			},
+			data: formData,
+		};
 
-      })
-      // .then(response => console.log(response))
-      .catch((err) => console.error(err));
-    // axios
-    //   .request(options)
-    //   .then(function (response) {
-    //     console.log("res.data", response.data);
-    //     console.log("url ", process.env.REACT_APP_RAPID_API_URL);
-    //     // const token = response.data.token;
-    //     // checkStatus(token);
-    //   })
-    //   .catch((err) => {
-    //     let error = err.response ? err.response.data : err;
-    //     setProcessing(false);
-    //     console.log(err);
-    //   });
-  };
+		axios
+			.request(options)
+			.then(function (response) {
+				const token = response.data.token;
+				// console.log(token);
+				checkStatus(token);
+			})
+			.catch((err) => {
+				let error = err.response ? err.response.data : err;
+				setProcessing(false);
+				console.log(err);
+			});
+	};
 
-  const checkStatus = async (token: string) => {
-    const options = {
-      method: "GET",
-      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      },
-    };
-    try {
-      let response = await axios.request(options);
-      const statusReceived = response.data.status as Status;
-      const statusId = statusReceived.id;
-      // let statusId = response.data.status?.id as number;
+	const checkStatus = async (token: string) => {
+		const options = {
+			method: "GET",
+			url: "https://" + __HOST__ + "/submissions/" + token,
+			params: { base64_encoded: "true", fields: "*" },
+			headers: {
+				"X-RapidAPI-Host": __HOST__,
+				"X-RapidAPI-Key": __KEY__,
+			},
+		};
+    
+		try {
+			let response = await axios.request(options);
+			// const statusReceived = response.data.status as Status;
+			// const statusId = statusReceived.id;
+			let statusId = response.data.status?.id as number;
 
-      // Processed - we have a result
-      if ([1, 2].includes(statusId)) {
-        // still processing
-        setTimeout(() => {
-          // checkStatus(token);
-        }, 2000);
-        return;
-      }
+			// Processed - we have a result
+			if ([1, 2].includes(statusId)) {
+				// still processing
+				setTimeout(() => {
+					checkStatus(token);
+				}, 2000);
+				return;
+			}
 
-      // setProcessing(false);
-      // setOutputDetails(response.data);
-      showSuccessToast(`Compiled Successfully!`);
-      // console.log('response.data', response.data);
-      return;
-    } catch (err) {
-      console.log("err", err);
-      setProcessing(false);
-      showErrorToast("err");
-    }
-  };
-  // callback function
-  function handleThemeChange(theme: ThemeOption) {
-    if (["light", "vs-dark"].includes(theme.value)) {
-      setTheme(theme);
-      return;
-    }
+			// setProcessing(false);
+			// setOutputDetails(response.data);
+			showSuccessToast(`Compiled Successfully!`);
+			// console.log('response.data', response.data);
+			return;
+		} catch (err) {
+			console.log("err", err);
+			setProcessing(false);
+			showErrorToast("err");
+		}
+	};
+	// callback function
+	function handleThemeChange(theme: ThemeOption) {
+		if (["light", "vs-dark"].includes(theme.value)) {
+			setTheme(theme);
+			return;
+		}
 
-    // console.log("theme from ThemeDropDown ", theme);
-    defineTheme(theme).then(() => {
-      // console.log("defined  Theme")
-    });
-  }
+		// console.log("theme from ThemeDropDown ", theme);
+		defineTheme(theme).then(() => {
+			// console.log("defined  Theme")
+		});
+	}
 
-  const showSuccessToast = (msg: string) => {
-    toast.success(msg || `Compiled Successfully!`, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const showErrorToast = (msg: string) => {
-    toast.error(msg || `Something went wrong! Please try again.`, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  // luxury, dracula
-  return (
+	const showSuccessToast = (msg: string) => {
+		toast.success(msg || `Compiled Successfully!`, {
+			position: "top-right",
+			autoClose: 1000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+	const showErrorToast = (msg: string) => {
+		toast.error(msg || `Something went wrong! Please try again.`, {
+			position: "top-right",
+			autoClose: 1000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+	// luxury, dracula
+	return (
 		<div data-theme='dracula' className='h-screen flex flex-col'>
 			<ToastContainer
 				position='top-right'
@@ -202,7 +198,7 @@ const Landing = () => {
 						\/** * Problem: Binary Search: Search a sorted array for
 						a target value. */
 					</ProblemDescription>
-					<div className='rating'>
+					<div className='rating' defaultChecked>
 						<input
 							type='radio'
 							name='rating-1'
@@ -245,24 +241,23 @@ const Landing = () => {
               customInput={customInput}
               setCustomInput={setCustomInput}
             /> */}
-          <div>
-            {}
-          </div>
+					<div>{}</div>
 					<button
 						onClick={handleCompile}
 						// disabled={!code}
 						className={`btn btn-primary
                 ${!code ? "opacity-50" : ""}`}
 					>
-						{processing ? "Processing..." : "Compile and Execute"}
+						{/* {processing ? "Processing..." : "Compile and Execute"} */}
+						Compile and Execute
 					</button>
-        </div>
-        
+				</div>
+
 				{/* {outputDetails ?
           <OutputResults outputDetails={outputDetails} /> : null} */}
 			</div>
 			<Footer />
 		</div>
-  );
+	);
 };
 export default Landing;
