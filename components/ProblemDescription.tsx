@@ -5,7 +5,7 @@ type props = {
 // function ProblemDescription({children}:props) {
 const ProblemDescription: FC<props> = ({ children }) => {
   return (
-    <div className="w-full h-full  mockup-window border bg-base-300 p-2">
+    <div className="w-full mockup-window border bg-base-300 p-2">
       {children}
     </div>
   );

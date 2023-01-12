@@ -1,19 +1,21 @@
 import { match } from "ts-pattern";
+import { DataOutput } from "types/dataOutput";
+import { safeEncodeTo64 } from "utils";
 
 // match
-const OutputResults = (outputDetails: any) => {
+const OutputResults = (outputDetails: DataOutput) => {
+
   const getOutput = () => {
     let statusId = outputDetails?.status?.id;
-    const outputStdout = Buffer.from(outputDetails.stdout, "base64") || null;
-    const outputCompile =
-      Buffer.from(outputDetails?.compile_output, "base64") || null;
-    const outputError = Buffer.from(outputDetails?.stderr, "base64") || null;
+    const outputStdout = safeEncodeTo64(outputDetails.stdout);
+    // const outputCompile = safeEncodeTo64(outputDetails?.compile_output);
+    const outputError = safeEncodeTo64(outputDetails?.stderr);
 
     // compilation error
     if (statusId === 6) {
       return (
         <pre className="px-2 py-1 font-normal text-xs text-red-500">
-          {outputCompile}
+          {}
         </pre>
       );
     }

@@ -15,25 +15,15 @@ interface props extends EditorProps {
 }
 const CodeEditorWindow: FC<props> = ({
   onChange,
-  language,
+  language = "javascript",
   theme,
   code = "/// Happy coding",
 }) => {
-  const [valueCode, setValue] = useState<string>(code);
-  const handleEditorChange = (value: string | undefined) => {
-    // value ??= "";
-    // console.warn(value);
-    // setValue(value);
-    // onChange!("code", value);
-  };
-
   return (
-    <div className="flex rounded-md w-full h-full shadow-4xl">
-      <Editor
-        // height="65vh"
-        // width={`100%`}
-        language={language || "javascript"}
-        value={valueCode}
+    <div className="   overflow-hidden w-full h-full rounded-md  shadow-4xl">
+      <Editor 
+        language={language}
+        value={code}
         theme={theme}
         onChange={onChange}
       />

@@ -1,7 +1,4 @@
-export const javascriptCodeDefault = `/**
-* Problem: Binary Search: Search a sorted array for a target value.
-*/
-// Time: O(log n)
+export const javascriptCodeDefault = ` 
 const binarySearch = (arr, target) => {
  return binarySearchHelper(arr, target, 0, arr.length - 1);
 };
