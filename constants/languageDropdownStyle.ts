@@ -2,7 +2,7 @@ import { GroupBase, StylesConfig } from "react-select";
 import { LanguageData } from "types/LanguageDropDown";
 import { ThemeOption } from "types/ThemeOption";
 
-type SelectComponent = ThemeOption | LanguageData;
+// type SelectComponent = ThemeOption | LanguageData;
 export const languageDropdownStyle:
   | StylesConfig<any, false, GroupBase<any>>
   | undefined = {

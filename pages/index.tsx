@@ -22,6 +22,7 @@ import { DataOutput } from "types/dataOutput";
 import OutputDetails from "@components/OutputDetails";
 import { showSuccessToast } from "ui_components/showSucces";
 import { showErrorToast } from "ui_components/showError";
+import ThemePage from "@components/ThemePage";
 
 const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
 const __HOST__ = "judge0-ce.p.rapidapi.com";
@@ -37,7 +38,11 @@ const Landing = () => {
     value: "vs-dark",
     label: "vs-dark",
   });
-
+  const [themePage, setThemePage] = useState<ThemeOption>({
+    key: "dark",
+    value: "dark",
+    label: "dark",
+  });
   // const enterPress = useKeyPress("Enter");
   // const ctrlPress = useKeyPress("Control");
 
@@ -123,6 +128,7 @@ const Landing = () => {
     }
   };
   function handleThemeChange(theme: ThemeOption) {
+    //default themes 
     if (["light", "vs-dark"].includes(theme.value)) {
       setTheme(theme);
       return;
@@ -130,9 +136,12 @@ const Landing = () => {
 
     defineTheme(theme).then(() => { });
   }
+  function handleThemePageChange(theme:ThemeOption) {
+    setThemePage(theme);
+  }
   // fav luxury, dracula
   return (
-    <div data-theme="dracula" className="h-screen flex flex-col overflow-auto">
+    <div data-theme={themePage.label} className="h-screen flex flex-col overflow-auto">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -147,34 +156,34 @@ const Landing = () => {
       {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
       <div className="navbar text-xl normal-case gap-2 bg-base-200">
         <div className="grow">Code runner ⚡</div>
+        <ThemePage handleThemePageChange={handleThemePageChange}/>
         <LanguagesDropdown onSelectChange={setLanguage} />
-        <ThemeDropdown handleThemeChange={handleThemeChange} />
+        <ThemeDropdown theme={theme} handleThemeChange={handleThemeChange} />
       </div>
       <div id="editorSection" className="flex h-full px-4 py-2">
         <ProblemDescription>
           <div className="text-lg">Problem:</div>
           Binary Search: Search a sorted array for a target value.
         </ProblemDescription>
-        <div className="w-full h-full">
+        <div className="w-full  ">
           <CodeEditorWindow
             code={code}
             onChange={onChange}
             language={language.value}
             theme={theme.key}
           />
+          {/* <div className="flex justify-evenly">
+            <button className="btn btn-primary">Console</button><button className="btn btn-info">Submit</button>
+          </div> */}
         </div>
       </div>
       <div id="outputSection" className="">
-        <div className="flex justify-center gap-9">
-          {/* <CustomInput
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            /> */}
-          <div className="btn btn-secondary">Console</div>
+        <div className="flex justify-end gap-9">
+          <div className="btn ">Console</div>
           <button
             onClick={handleCompile}
-            // disabled={!code}
-            className={`btn btn-primary ${!code ? "opacity-50" : ""}`}
+            disabled={processing}
+            className={`btn btn-primary mr-8`}
           >
             {processing ? "Processing..." : "Submit"}
           </button>

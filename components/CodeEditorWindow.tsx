@@ -20,7 +20,7 @@ const CodeEditorWindow: FC<props> = ({
   code = "/// Happy coding",
 }) => {
   return (
-    <div className="   overflow-hidden w-full h-full rounded-md  shadow-4xl">
+    <div className="overflow-hidden w-full h-full max-h-[75vh] rounded-md  shadow-4xl">
       <Editor 
         language={language}
         value={code}
