@@ -1,17 +1,17 @@
 import { Status } from "./Status";
 
 export type DataOutput = {
-  source_code: string;
+  source_code: String64;
   language_id: number;
-  stdin: string;
-  expected_output: any;
-  stdout: string;
-  status_id: number;
+  stdin: String64;
+  expected_output: string | null;
+  stdout: string|null;
+  status_id: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
   created_at: string;
-  finished_at: string;
+  finished_at: unknown;
   time: string;
   memory: number;
-  stderr: any;
+  stderr: String64 | undefined;
   token: string;
   number_of_runs: number;
   cpu_time_limit: string;
@@ -26,19 +26,27 @@ export type DataOutput = {
   compile_output: string | undefined;
   exit_code: number;
   exit_signal: any;
-  message: any;
+  message: String64 | undefined;
   wall_time: string;
-  compiler_options: any;
-  command_line_arguments: any;
+  compiler_options: unknown | null;
+  command_line_arguments: unknown | null;
   redirect_stderr_to_stdout: boolean;
-  callback_url: any;
-  additional_files: any;
+  callback_url: unknown | null;
+  additional_files: string | null;
   enable_network: boolean;
   status: Status;
   language: Language;
 };
-
+export type Submission = {
+  language_id: number,
+  stdout: string,
+  status_id: 3,
+  stderr: String64 | null,
+  token: string,
+};
 export interface Language {
   id: number;
   name: string;
 }
+
+export type String64 = string;

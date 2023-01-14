@@ -1,5 +1,7 @@
+import { String64 } from "types/dataOutput";
+
 export function safeEncodeTo64(str: string) {
-  return Buffer.from(str).toString("base64");
+  return Buffer.from(String(str)).toString("base64");
 }
 export function safeDeEncodeFrom64(str: string) {
   // return atob(str); ** deprecated 

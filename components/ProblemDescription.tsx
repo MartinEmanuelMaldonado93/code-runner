@@ -18,7 +18,7 @@ const ProblemDescription: FC<props> = ({ problem }) => {
   }
   return (<>
     <div className="overflow-y-auto box-border h-fit max-h-[70vh] prose w-full  border rounded-md bg-base-300 p-3
-    scrollbar scrollbar-thumb-base-100 scrollbar-track-base-content scrollbar-thumb-rounded-md scrollbar-w-[6px]">
+    scrollbar-thin scrollbar-thumb-base-content scrollbar-track-base-100 scrollbar-thumb-rounded-md">
       <h2>{problem.title}<span className={`${difficultyBadge(problem)} rounded-full text-sm px-2 mx-2 font-normal`}>{problem.difficulty}</span>
       </h2>
       <p>{problem.description}</p>

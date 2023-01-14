@@ -17,7 +17,7 @@ import CustomInput from "@components/CustomInput";
 import { Status } from "types/Status";
 import ProblemDescription from "@components/ProblemDescription";
 import Footer from "@components/Footer";
-import { safeEncodeTo64 } from "utils";
+import { safeDeEncodeFrom64, safeEncodeTo64 } from "utils";
 import { DataOutput } from "types/dataOutput";
 import OutputDetails from "@components/OutputDetails";
 import { showSuccessToast } from "ui_components/showSucces";
@@ -25,6 +25,7 @@ import { showErrorToast } from "ui_components/showError";
 import ThemePage from "@components/ThemePage";
 import { problems } from "constants/problems";
 import useLocalStorage from "hooks/useLocalStorage";
+import ConsoleDetails from "@components/ConsoleDetails";
 
 const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
 const __HOST__ = "judge0-ce.p.rapidapi.com";
@@ -51,8 +52,8 @@ const Landing = () => {
   useEffect(() => {
     setThemePage(themeFromStorage);
   }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  , []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , []);
   // console.log("themePage: ", themePage);
   // console.log("themeFromStorage: ", themeFromStorage);
   // const enterPress = useKeyPress("Enter");
@@ -156,7 +157,7 @@ const Landing = () => {
 
   return (
     <div data-theme={
-      themePage? themePage.label : "light"
+      themePage ? themePage.label : "light"
     } className="h-screen max-h-screen flex flex-col justify-between overflow-y-auto">
       <ToastContainer
         position="top-right"
@@ -169,7 +170,12 @@ const Landing = () => {
         draggable
         pauseOnHover
       />
-      {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
+      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+      <label htmlFor="my-modal-4" className="modal cursor-pointer">
+        <label className="modal-box relative" htmlFor="">
+          <ConsoleDetails outputData={outputData}/>
+        </label>
+      </label>
       <div className="navbar text-xl normal-case gap-2 bg-base-200">
         <div className="grow"> {"{"} Code Runner ⚡ {"}"}</div>
         <LanguagesDropdown onSelectChange={setLanguage} />
@@ -189,7 +195,8 @@ const Landing = () => {
       </div>
       <div id="outputSection">
         <div className="flex justify-end gap-9">
-          <div className="btn">Details</div>
+          {/* <div className="btn">See Details</div> */}
+          <label htmlFor="my-modal-4" className="btn btn-active">See Details</label>
           <button
             onClick={handleCompile}
             disabled={isProcessing}
