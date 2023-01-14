@@ -6,7 +6,7 @@ type props = {
     outputData?: DataOutput,
 }
 function ConsoleDetails({ outputData }: props) {
-    if (!outputData) return <></>;
+    if (!outputData) return <div className="mockup-code"><pre><code>Waiting for your code 🛠...</code></pre></div>;
     console.log(outputData);
 
     const output = () => {

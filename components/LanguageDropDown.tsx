@@ -5,9 +5,10 @@ import { languageDropdownStyle } from "../constants/languageDropdownStyle";
 import { LanguageData } from "types/LanguageDropDown";
 
 type props = {
-  onSelectChange: Dispatch<SetStateAction<LanguageData>>;
+  onSelectChange: Dispatch<SetStateAction<LanguageData>>,
+  language: LanguageData,
 };
-const LanguagesDropdown: FC<props> = ({ onSelectChange }): JSX.Element => {
+const LanguagesDropdown: FC<props> = ({ onSelectChange,language }): JSX.Element => {
   // function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
   return (
     <Select
@@ -16,6 +17,7 @@ const LanguagesDropdown: FC<props> = ({ onSelectChange }): JSX.Element => {
       isClearable={true}
       options={languageOptions}
       defaultValue={languageOptions[0]}
+      value={language}
       onChange={(selectedOption) => {
         if (!selectedOption) return;
 

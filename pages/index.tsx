@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import useKeyPress from "../hooks/useKeyPress";
-import ThemeDropdown from "@components/ThemeDropDown";
+import ThemeEditorDropdown from "@components/ThemeEditorDropDown";
 import LanguagesDropdown from "@components/LanguageDropDown";
 import CodeEditorWindow from "@components/CodeEditorWindow";
 import { languageOptions } from "constants/languageOptions";
@@ -173,14 +173,14 @@ const Landing = () => {
       <input type="checkbox" id="my-modal-4" className="modal-toggle" />
       <label htmlFor="my-modal-4" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
-          <ConsoleDetails outputData={outputData}/>
+          <ConsoleDetails outputData={outputData} />
         </label>
       </label>
       <div className="navbar text-xl normal-case gap-2 bg-base-200">
-        <div className="grow"> {"{"} Code Runner ⚡ {"}"}</div>
-        <LanguagesDropdown onSelectChange={setLanguage} />
+        <div className="grow select-none"> {"{"} Code Runner ⚡ {"}"}</div>
+        <LanguagesDropdown onSelectChange={setLanguage} language={language} />
         <ThemePage theme={themePage} handleThemePageChange={handleThemePageChange} />
-        <ThemeDropdown theme={themeEditor} handleThemeChange={handleThemeChange} />
+        <ThemeEditorDropdown theme={themeEditor} handleThemeChange={handleThemeChange} />
       </div>
       <div id="editorSection" className="flex px-4 py-2">
         <ProblemDescription problem={problems[0]} />
@@ -195,8 +195,7 @@ const Landing = () => {
       </div>
       <div id="outputSection">
         <div className="flex justify-end gap-9">
-          {/* <div className="btn">See Details</div> */}
-          <label htmlFor="my-modal-4" className="btn btn-active">See Details</label>
+          <label htmlFor="my-modal-4" className="btn btn-active">See More Details</label>
           <button
             onClick={handleCompile}
             disabled={isProcessing}
