@@ -34,10 +34,11 @@ const ThemeDropdown: FC<props> = ({ handleThemeChange, theme }) => {
   }
   return (
     <Select
-      placeholder="Select Theme"
+      placeholder="Select Theme Editor"
       options={optionsMaped}
       onChange={onChange}
       defaultValue={theme}
+      value={theme}
       styles={languageDropdownStyle}
     />
   );

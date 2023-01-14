@@ -23,6 +23,8 @@ import OutputDetails from "@components/OutputDetails";
 import { showSuccessToast } from "ui_components/showSucces";
 import { showErrorToast } from "ui_components/showError";
 import ThemePage from "@components/ThemePage";
+import { problems } from "constants/problems";
+import useLocalStorage from "hooks/useLocalStorage";
 
 const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
 const __HOST__ = "judge0-ce.p.rapidapi.com";
@@ -30,19 +32,29 @@ const __HOST__ = "judge0-ce.p.rapidapi.com";
 const Landing = () => {
   const [code, setCode] = useState<string>(javascriptCodeDefault);
   const [customInput, setCustomInput] = useState("");
-  const [outputDetails, setOutputDetails] = useState<DataOutput>();
-  const [processing, setProcessing] = useState<boolean>();
+  const [outputData, setOutputData] = useState<DataOutput>();
+  const [isProcessing, setIsProcessing] = useState<boolean>();
   const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
-  const [theme, setTheme] = useState<ThemeOption>({
+  const [themeEditor, setThemeEditor] = useState<ThemeOption>({
     key: "vs-dark",
     value: "vs-dark",
     label: "vs-dark",
   });
-  const [themePage, setThemePage] = useState<ThemeOption>({
-    key: "dark",
-    value: "dark",
-    label: "dark",
-  });
+
+  const [themeFromStorage, setThemeFromStorage] = useLocalStorage("themePage", {
+    key: "0",
+    value: "light",
+    label: "light",
+  } satisfies ThemeOption);
+  const [themePage, setThemePage] = useState<ThemeOption>();
+
+  useEffect(() => {
+    setThemePage(themeFromStorage);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  , []);
+  // console.log("themePage: ", themePage);
+  // console.log("themeFromStorage: ", themeFromStorage);
   // const enterPress = useKeyPress("Enter");
   // const ctrlPress = useKeyPress("Control");
 
@@ -59,7 +71,7 @@ const Landing = () => {
   };
   /** Send code to an API method POST */
   const handleCompile = () => {
-    setProcessing(true);
+    setIsProcessing(true);
 
     const formData = {
       language_id: language.id,
@@ -87,7 +99,7 @@ const Landing = () => {
       })
       .catch((err) => {
         let error = err.response ? err.response.data : err;
-        setProcessing(false);
+        setIsProcessing(false);
         console.log(error);
       });
   };
@@ -114,15 +126,15 @@ const Landing = () => {
         return;
       }
 
-      setProcessing(false);
+      setIsProcessing(false);
       if (statusId === 3) {
         showSuccessToast(`Compiled Successfully!`);
       } else {
         showErrorToast();
       }
-      setOutputDetails(dataOutput);
+      setOutputData(dataOutput);
     } catch (err) {
-      setProcessing(false);
+      setIsProcessing(false);
       showErrorToast("error in request");
       console.log("err", err);
     }
@@ -130,18 +142,22 @@ const Landing = () => {
   function handleThemeChange(theme: ThemeOption) {
     //default themes 
     if (["light", "vs-dark"].includes(theme.value)) {
-      setTheme(theme);
+      setThemeEditor(theme);
       return;
     }
 
     defineTheme(theme).then(() => { });
   }
-  function handleThemePageChange(theme:ThemeOption) {
-    setThemePage(theme);
+
+  function handleThemePageChange(themePage: ThemeOption) {
+    setThemePage(themePage);
+    setThemeFromStorage(themePage);// the last theme selected
   }
-  // fav luxury, dracula
+
   return (
-    <div data-theme={themePage.label} className="h-screen flex flex-col overflow-auto">
+    <div data-theme={
+      themePage? themePage.label : "light"
+    } className="h-screen max-h-screen flex flex-col justify-between overflow-y-auto">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -155,40 +171,34 @@ const Landing = () => {
       />
       {/* <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
       <div className="navbar text-xl normal-case gap-2 bg-base-200">
-        <div className="grow">Code runner ⚡</div>
-        <ThemePage handleThemePageChange={handleThemePageChange}/>
+        <div className="grow"> {"{"} Code Runner ⚡ {"}"}</div>
         <LanguagesDropdown onSelectChange={setLanguage} />
-        <ThemeDropdown theme={theme} handleThemeChange={handleThemeChange} />
+        <ThemePage theme={themePage} handleThemePageChange={handleThemePageChange} />
+        <ThemeDropdown theme={themeEditor} handleThemeChange={handleThemeChange} />
       </div>
-      <div id="editorSection" className="flex h-full px-4 py-2">
-        <ProblemDescription>
-          <div className="text-lg">Problem:</div>
-          Binary Search: Search a sorted array for a target value.
-        </ProblemDescription>
-        <div className="w-full  ">
+      <div id="editorSection" className="flex px-4 py-2">
+        <ProblemDescription problem={problems[0]} />
+        <div className="w-full">
           <CodeEditorWindow
             code={code}
             onChange={onChange}
             language={language.value}
-            theme={theme.key}
+            theme={themeEditor.key}
           />
-          {/* <div className="flex justify-evenly">
-            <button className="btn btn-primary">Console</button><button className="btn btn-info">Submit</button>
-          </div> */}
         </div>
       </div>
-      <div id="outputSection" className="">
+      <div id="outputSection">
         <div className="flex justify-end gap-9">
-          <div className="btn ">Console</div>
+          <div className="btn">Details</div>
           <button
             onClick={handleCompile}
-            disabled={processing}
+            disabled={isProcessing}
             className={`btn btn-primary mr-8`}
           >
-            {processing ? "Processing..." : "Submit"}
+            {isProcessing ? "Processing..." : "Submit"}
           </button>
         </div>
-        {outputDetails ? <OutputDetails outputDetails={outputDetails} /> : null}
+        {outputData ? <OutputDetails outputDetails={outputData} /> : null}
       </div>
       <Footer />
     </div>

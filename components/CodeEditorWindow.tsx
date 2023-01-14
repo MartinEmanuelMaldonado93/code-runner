@@ -20,8 +20,9 @@ const CodeEditorWindow: FC<props> = ({
   code = "/// Happy coding",
 }) => {
   return (
-    <div className="overflow-hidden w-full h-full max-h-[75vh] rounded-md  shadow-4xl">
+    <div className="border-black rounded-md w-full h-full min-h-[70vh]    shadow-4xl">
       <Editor 
+        height={"100%"}
         language={language}
         value={code}
         theme={theme}

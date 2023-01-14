@@ -1,5 +1,5 @@
+import React, {   FC, useEffect, useState  } from "react";
 import { languageDropdownStyle } from "constants/languageDropdownStyle";
-import React, {   FC  } from "react";
 import Select, {
     ActionMeta,
     MultiValue,
@@ -9,7 +9,7 @@ import { ThemeOption } from "types/ThemeOption";
 import { ThemesPage } from "constants/ThemesPage";
 
 type props = {
-    theme?: ThemeOption;
+    theme?: ThemeOption;// ! may trigger hydration err
     handleThemePageChange(theme: ThemeOption): void
 };
 const ThemePage: FC<props> = ({ handleThemePageChange, theme }) => {
@@ -22,22 +22,22 @@ const ThemePage: FC<props> = ({ handleThemePageChange, theme }) => {
             key: Key,
         } satisfies ThemeOption)
     );
-    
+
     function onChange(
         newValue: SingleValue<ThemeOption> | MultiValue<ThemeOption>,
         actionMeta: ActionMeta<ThemeOption>
     ) {
         const ThemeSelected = newValue as ThemeOption;
-        console.log(ThemeSelected);
         handleThemePageChange(ThemeSelected);
     }
     return (
         <Select
             placeholder="Select Theme Page"
             options={optionsMaped}
-            onChange={onChange}
             defaultValue={theme}
+            value={theme}
             styles={languageDropdownStyle}
+            onChange={onChange}
         />
     );
 };
