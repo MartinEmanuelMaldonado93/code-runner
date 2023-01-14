@@ -37,5 +37,5 @@ module.exports = {
       "winter",
     ],
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true }),require("@tailwindcss/typography"), require("daisyui")],
 };
