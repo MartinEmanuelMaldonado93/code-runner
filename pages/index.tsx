@@ -12,7 +12,7 @@ import { ThemeOption } from "types/ThemeOption";
 import { defineTheme } from "@components/DefineTheme";
 import axios from "axios";
 import { javascriptCodeDefault } from "constants/javascriptCodeDefault";
-import OutputResults from "@components/OutputResults";
+// import OutputResults from "@components/OutputResults";
 import CustomInput from "@components/CustomInput";
 import { Status } from "types/Status";
 import ProblemDescription from "@components/ProblemDescription";
