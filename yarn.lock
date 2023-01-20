@@ -2640,11 +2640,6 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-ts-pattern@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/ts-pattern/-/ts-pattern-4.1.2.tgz#27968615b9344735b0b825aab3d5463af9a27cc0"
-  integrity sha512-R/NEQHgeQwiyQyD5++s8rVB6jC1c6KiHHac2GEm0Pf82p3dth7s/kZfSimcUkVLjz+bPJn12721Vw9sbMpY5Rw==
-
 tsconfig-paths@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz#ba0734599e8ea36c862798e920bcf163277b137a"

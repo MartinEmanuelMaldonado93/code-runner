@@ -25,9 +25,6 @@ import { showErrorToast } from "ui_components/showError";
 import { problems } from "constants/problems";
 import useLocalStorage from "hooks/useLocalStorage";
 
-const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
-const __HOST__ = "judge0-ce.p.rapidapi.com";
-
 const Landing = () => {
   const [code, setCode] = useState<string>(javascriptCodeDefault);
   const [customInput, setCustomInput] = useState("");
@@ -39,7 +36,6 @@ const Landing = () => {
     value: "vs-dark",
     label: "vs-dark",
   });
-
   const [themePageStorage, setThemeFromStorage] = useLocalStorage("themePage", {
     key: "0",
     value: "light",
@@ -86,13 +82,16 @@ const Landing = () => {
     };
     const options = {
       method: "POST",
-      url: "https://" + __HOST__ + "/submissions",
+      url:
+        "https://" +
+        process.env.NEXT_PUBLIC_APP_RAPID_API_HOST +
+        "/submissions",
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
-        "X-RapidAPI-Key": __KEY__,
-        "X-RapidAPI-Host": __HOST__,
+        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_APP_RAPID_API_KEY,
+        "X-RapidAPI-Host": process.env.NEXT_PUBLIC_APP_RAPID_API_HOST,
       },
       data: formData,
     };
@@ -112,11 +111,15 @@ const Landing = () => {
   const checkStatus = async (token: string) => {
     const options = {
       method: "GET",
-      url: "https://" + __HOST__ + "/submissions/" + token,
+      url:
+        "https://" +
+        process.env.NEXT_PUBLIC_APP_RAPID_API_HOST +
+        "/submissions/" +
+        token,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": __HOST__,
-        "X-RapidAPI-Key": __KEY__,
+        "X-RapidAPI-Host": process.env.NEXT_PUBLIC_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_APP_RAPID_API_KEY,
       },
     };
 
@@ -152,7 +155,7 @@ const Landing = () => {
       return;
     }
 
-    defineTheme(theme);//.then(console.log);
+    defineTheme(theme); //.then(console.log);
   }
   function handleThemePage(themePage: ThemeOption) {
     setThemePage(themePage);
@@ -184,7 +187,7 @@ const Landing = () => {
       </label>
       <input
         type='checkbox'
-        checked={modalChecked}
+        // checked={modalChecked}
         id='my-modal'
         className='modal-toggle'
       />
@@ -209,7 +212,6 @@ const Landing = () => {
         </div>
       </div>
       {/* modals */}
-
       <div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
         <div className='w-full sm:w-auto grow select-none font-bold'>
           {" "}
@@ -227,7 +229,6 @@ const Landing = () => {
           handleThemeChange={handleThemeChange}
         />
       </div>
-
       <div
         id='editorSection'
         className='flex flex-wrap md:flex-nowrap px-4 py-2'
