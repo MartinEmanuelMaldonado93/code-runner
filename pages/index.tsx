@@ -1,31 +1,29 @@
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import useKeyPress from "../hooks/useKeyPress";
-import ThemeEditorDropdown from "@components/ThemeEditorDropDown";
-import LanguagesDropdown from "@components/LanguageDropDown";
-import CodeEditorWindow from "@components/CodeEditorWindow";
+import {
+  ThemeEditorDropdown,
+  LanguagesDropdown,
+  CodeEditorWindow,
+  ThemePage,
+  ProblemDescription,
+  Footer,
+  OutputDetails,
+  ConsoleDetails,
+} from "@components/index";
 import { languageOptions } from "constants/languageOptions";
 import { LanguageData } from "types/LanguageDropDown";
 import { OnChange } from "@monaco-editor/react";
 import { ThemeOption } from "types/ThemeOption";
-import { defineTheme } from "@components/DefineTheme";
 import axios from "axios";
 import { javascriptCodeDefault } from "constants/javascriptCodeDefault";
-// import OutputResults from "@components/OutputResults";
-import CustomInput from "@components/CustomInput";
-import { Status } from "types/Status";
-import ProblemDescription from "@components/ProblemDescription";
-import Footer from "@components/Footer";
-import { safeDeEncodeFrom64, safeEncodeTo64 } from "utils";
+import { safeDeEncodeFrom64, safeEncodeTo64, defineTheme } from "utils";
 import { DataOutput } from "types/dataOutput";
-import OutputDetails from "@components/OutputDetails";
 import { showSuccessToast } from "ui_components/showSucces";
 import { showErrorToast } from "ui_components/showError";
-import ThemePage from "@components/ThemePage";
 import { problems } from "constants/problems";
 import useLocalStorage from "hooks/useLocalStorage";
-import ConsoleDetails from "@components/ConsoleDetails";
 
 const __KEY__ = "617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d";
 const __HOST__ = "judge0-ce.p.rapidapi.com";
@@ -48,12 +46,21 @@ const Landing = () => {
     label: "light",
   } satisfies ThemeOption);
   const [themePage, setThemePage] = useState<ThemeOption>();
+  const [modalChecked, setModalChecked] = useState<boolean>();
 
-  useEffect(() => {
-    setThemePage(themeFromStorage);
-  }
+  useEffect(
+    () => {
+      setThemePage(themeFromStorage);
+      //check if is small device
+      if (window.innerWidth > 600) {
+        setModalChecked(false);
+      } else {
+        setModalChecked(true);
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    , []);
+    []
+  );
   // console.log("themePage: ", themePage);
   // console.log("themeFromStorage: ", themeFromStorage);
   // const enterPress = useKeyPress("Enter");
@@ -141,26 +148,26 @@ const Landing = () => {
     }
   };
   function handleThemeChange(theme: ThemeOption) {
-    //default themes 
+    //default themes
     if (["light", "vs-dark"].includes(theme.value)) {
       setThemeEditor(theme);
       return;
     }
 
-    defineTheme(theme).then(() => { });
+    defineTheme(theme).then(() => {});
   }
 
   function handleThemePageChange(themePage: ThemeOption) {
     setThemePage(themePage);
-    setThemeFromStorage(themePage);// the last theme selected
+    setThemeFromStorage(themePage); // the last theme selected
   }
-
   return (
-    <div data-theme={
-      themePage ? themePage.label : "light"
-    } className="h-screen max-h-screen flex flex-col justify-between overflow-y-auto">
+    <div
+      data-theme={themePage ? themePage.label : "light"}
+      className='h-screen max-h-screen flex flex-col justify-between overflow-y-auto'
+    >
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -170,21 +177,60 @@ const Landing = () => {
         draggable
         pauseOnHover
       />
-      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-      <label htmlFor="my-modal-4" className="modal cursor-pointer">
-        <label className="modal-box relative" htmlFor="">
+      <input type='checkbox' id='my-modal-4' className='modal-toggle' />
+      <label htmlFor='my-modal-4' className='modal cursor-pointer'>
+        <label className='modal-box relative' htmlFor=''>
           <ConsoleDetails outputData={outputData} />
         </label>
       </label>
-      <div className="navbar text-xl normal-case gap-2 bg-base-200">
-        <div className="grow select-none"> {"{"} Code Runner ⚡ {"}"}</div>
-        <LanguagesDropdown onSelectChange={setLanguage} language={language} />
-        <ThemePage theme={themePage} handleThemePageChange={handleThemePageChange} />
-        <ThemeEditorDropdown theme={themeEditor} handleThemeChange={handleThemeChange} />
+
+      <input
+        type='checkbox'
+        checked={modalChecked}
+        id='my-modal'
+        className='modal-toggle'
+      />
+      <div className='modal'>
+        <div className='modal-box'>
+          <h3 className='font-bold text-lg'>
+            Limited functionality in small devices 😅
+          </h3>
+          <p className='py-4'>
+            Feel free to run this on a laptop or your pc desktop,
+            <span className='block'>Thanks for your patience 🙌!!</span>
+          </p>
+          <div className='modal-action'>
+            <label
+              htmlFor='my-modal'
+              className='btn'
+              onClick={() => setModalChecked((p) => !p)}
+            >
+              Yay!
+            </label>
+          </div>
+        </div>
       </div>
-      <div id="editorSection" className="flex px-4 py-2">
+      <div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
+        <div className='w-full sm:w-auto grow select-none'>
+          {" "}
+          {"{"} Code Runner ⚡ {"}"}
+        </div>
+        <LanguagesDropdown onSelectChange={setLanguage} language={language} />
+        <ThemePage
+          theme={themePage}
+          handleThemePageChange={handleThemePageChange}
+        />
+        <ThemeEditorDropdown
+          theme={themeEditor}
+          handleThemeChange={handleThemeChange}
+        />
+      </div>
+      <div
+        id='editorSection'
+        className='flex flex-wrap md:flex-nowrap px-4 py-2'
+      >
         <ProblemDescription problem={problems[0]} />
-        <div className="w-full">
+        <div className='w-full'>
           <CodeEditorWindow
             code={code}
             onChange={onChange}
@@ -193,9 +239,11 @@ const Landing = () => {
           />
         </div>
       </div>
-      <div id="outputSection">
-        <div className="flex justify-end gap-9">
-          <label htmlFor="my-modal-4" className="btn btn-active">See More Details</label>
+      <div id='outputSection'>
+        <div className='flex justify-end gap-9 my-2'>
+          <label htmlFor='my-modal-4' className='btn btn-active'>
+            CONSOLE
+          </label>
           <button
             onClick={handleCompile}
             disabled={isProcessing}

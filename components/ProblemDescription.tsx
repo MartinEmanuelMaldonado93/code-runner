@@ -44,4 +44,4 @@ const ProblemDescription: FC<props> = ({ problem }) => {
   </>)
 };
 
-export default ProblemDescription;
+export { ProblemDescription };

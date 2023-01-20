@@ -33,9 +33,9 @@ const OutputDetails = ({ outputDetails }: props) => {
         <div className="stat-title">Time :</div>
         <span className="stat-value ">{isError ? "- - " : outputDetails.time}ms</span>
       </span>
-    </div> 
+    </div>
   </>
   );
 };
 
-export default OutputDetails;
+export { OutputDetails };

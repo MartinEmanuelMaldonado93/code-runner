@@ -21,7 +21,7 @@ const CodeEditorWindow: FC<props> = ({
 }) => {
   return (
     <div className="border-black rounded-md w-full h-full min-h-[70vh]    shadow-4xl">
-      <Editor 
+      <Editor
         height={"100%"}
         language={language}
         value={code}
@@ -31,4 +31,4 @@ const CodeEditorWindow: FC<props> = ({
     </div>
   );
 };
-export default CodeEditorWindow;
+export { CodeEditorWindow };

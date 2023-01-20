@@ -7,7 +7,6 @@ type props = {
 }
 function ConsoleDetails({ outputData }: props) {
     if (!outputData) return <div className="mockup-code"><pre><code>Waiting for your code 🛠...</code></pre></div>;
-    console.log(outputData);
 
     const output = () => {
         if (outputData.status_id > 3) { // some error
@@ -27,11 +26,11 @@ function ConsoleDetails({ outputData }: props) {
 
     return <div className="mockup-code">
         <pre data-prefix=">" className="p-4">
-            <code  className={classError(outputData.status_id)}>
+            <code className={classError(outputData.status_id)}>
                 {output()}
             </code>
         </pre>
     </div>;
 }
 
-export default ConsoleDetails;
+export { ConsoleDetails };

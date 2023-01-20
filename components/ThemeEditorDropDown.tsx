@@ -45,4 +45,4 @@ const ThemeEditorDropdown: FC<props> = ({ handleThemeChange, theme }) => {
   );
 };
 
-export default ThemeEditorDropdown;
+export {ThemeEditorDropdown};

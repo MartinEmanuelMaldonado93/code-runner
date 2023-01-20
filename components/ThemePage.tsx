@@ -1,4 +1,4 @@
-import React, {   FC, useEffect, useState  } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { languageDropdownStyle } from "constants/languageDropdownStyle";
 import Select, {
     ActionMeta,
@@ -42,4 +42,4 @@ const ThemePage: FC<props> = ({ handleThemePageChange, theme }) => {
     );
 };
 
-export default ThemePage;
+export { ThemePage };

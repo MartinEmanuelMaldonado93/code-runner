@@ -14,4 +14,4 @@ const CustomInput = (customInput: any, setCustomInput: any) => {
   );
 };
 
-export default CustomInput;
+export { CustomInput };

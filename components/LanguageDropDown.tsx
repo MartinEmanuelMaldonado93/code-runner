@@ -8,7 +8,7 @@ type props = {
   onSelectChange: Dispatch<SetStateAction<LanguageData>>,
   language: LanguageData,
 };
-const LanguagesDropdown: FC<props> = ({ onSelectChange,language }): JSX.Element => {
+const LanguagesDropdown: FC<props> = ({ onSelectChange, language }): JSX.Element => {
   // function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
   return (
     <Select
@@ -28,4 +28,4 @@ const LanguagesDropdown: FC<props> = ({ onSelectChange,language }): JSX.Element 
   );
 };
 
-export default LanguagesDropdown;
+export { LanguagesDropdown };
