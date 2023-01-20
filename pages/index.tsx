@@ -40,7 +40,7 @@ const Landing = () => {
     label: "vs-dark",
   });
 
-  const [themeFromStorage, setThemeFromStorage] = useLocalStorage("themePage", {
+  const [themePageStorage, setThemeFromStorage] = useLocalStorage("themePage", {
     key: "0",
     value: "light",
     label: "light",
@@ -50,7 +50,7 @@ const Landing = () => {
 
   useEffect(
     () => {
-      setThemePage(themeFromStorage);
+      setThemePage(themePageStorage);
       //check if is small device
       if (window.innerWidth > 600) {
         setModalChecked(false);
@@ -61,8 +61,6 @@ const Landing = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-  // console.log("themePage: ", themePage);
-  // console.log("themeFromStorage: ", themeFromStorage);
   // const enterPress = useKeyPress("Enter");
   // const ctrlPress = useKeyPress("Control");
 
@@ -154,13 +152,13 @@ const Landing = () => {
       return;
     }
 
-    defineTheme(theme).then(() => {});
+    defineTheme(theme);//.then(console.log);
   }
-
-  function handleThemePageChange(themePage: ThemeOption) {
+  function handleThemePage(themePage: ThemeOption) {
     setThemePage(themePage);
     setThemeFromStorage(themePage); // the last theme selected
   }
+
   return (
     <div
       data-theme={themePage ? themePage.label : "light"}
@@ -177,13 +175,13 @@ const Landing = () => {
         draggable
         pauseOnHover
       />
+      {/* modals */}
       <input type='checkbox' id='my-modal-4' className='modal-toggle' />
       <label htmlFor='my-modal-4' className='modal cursor-pointer'>
         <label className='modal-box relative' htmlFor=''>
           <ConsoleDetails outputData={outputData} />
         </label>
       </label>
-
       <input
         type='checkbox'
         checked={modalChecked}
@@ -210,21 +208,26 @@ const Landing = () => {
           </div>
         </div>
       </div>
+      {/* modals */}
+
       <div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
-        <div className='w-full sm:w-auto grow select-none'>
+        <div className='w-full sm:w-auto grow select-none font-bold'>
           {" "}
           {"{"} Code Runner ⚡ {"}"}
         </div>
+        <div className='btn-group'>
+          <button className='btn'>«</button>
+          <button className='btn'>Page 1</button>
+          <button className='btn'>»</button>
+        </div>
         <LanguagesDropdown onSelectChange={setLanguage} language={language} />
-        <ThemePage
-          theme={themePage}
-          handleThemePageChange={handleThemePageChange}
-        />
+        <ThemePage theme={themePage} handleThemePageChange={handleThemePage} />
         <ThemeEditorDropdown
           theme={themeEditor}
           handleThemeChange={handleThemeChange}
         />
       </div>
+
       <div
         id='editorSection'
         className='flex flex-wrap md:flex-nowrap px-4 py-2'
