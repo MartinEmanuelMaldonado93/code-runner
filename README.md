@@ -7,6 +7,8 @@ This project was made with [Nextjs](https://nextjs.org) and deploy on [Vercel](h
 - TypeScript
 - Tailwind, Daisyui
 - React-toastify (prompt messages)
+- React-select
+- Mónaco Editor
 - Yarn
 ## 
 
