@@ -16,8 +16,9 @@ import {
 import { LanguageData, ThemeOption, DataOutput } from "@types";
 import { problems, languageOptions, javascriptCodeDefault } from "@constants";
 import { useLocalStorage } from "@hooks";
-import { defineTheme } from "@utils";
+import { defineTheme, safeEncodeTo64 } from "@utils";
 import { getStatus, postCode } from "@api";
+import axios from "axios";
 
 const Home = () => {
   const [code, setCode] = useState<string>(javascriptCodeDefault);
@@ -60,18 +61,21 @@ const Home = () => {
   /** Send code to an API method POST */
   const handleSubmit = async () => {
     setIsProcessing(true);
-    const response = await postCode({
-      code,
-      languageID: language.id,
-    });
     try {
-      const token = response.data.token;
-      checkStatus(token);
-    } catch (err: unknown) {
-      // let error = err.response ? err.response.data : err;
-      if (err instanceof Error) console.log(err.message, err);
+      const response = await postCode({ code, languageID: language.id });
+      const data = response.data;
+      console.log(data);
+    } catch (error: any) {
+      console.error(error.response.data);
+    } finally {
       setIsProcessing(false);
     }
+    //   const token = response.data.token;
+    //   if (token) console.log(token);
+    //   // checkStatus(token);
+    // });
+    // const token = response.data.token;
+    // checkStatus(token);
   };
 
   const checkStatus = async (token: string) => {

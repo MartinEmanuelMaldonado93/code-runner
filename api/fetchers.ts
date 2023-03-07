@@ -1,6 +1,7 @@
 import { safeEncodeTo64 } from "@utils";
-import axios, { AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { judge0Instance } from "./axiosLib/axiosInstance";
+import { routes } from "./routes";
 
 type propsSubmit = {
   code: string;
@@ -13,21 +14,16 @@ export function postCode({
   code,
   customInput,
 }: propsSubmit): Promise<AxiosResponse<any, any>> {
-  const formData = {
+  const data_code = {
     language_id: languageID,
     source_code: safeEncodeTo64(code),
     stdin: customInput ? safeEncodeTo64(customInput) : "",
   };
 
-  return judge0Instance.post("/submissions", {
-    params: { base64_encoded: "true", fields: "*" },
-    data: formData,
-  });
+  return judge0Instance.post(routes.SUBMISSIONS, JSON.stringify(data_code));
 }
 
 /** Check status of compilation */
 export function getStatus(token: string) {
-  return judge0Instance.get("/submissions/" + token, {
-    params: { base64_encoded: "true", fields: "*" },
-  });
+  return judge0Instance.get(routes.SUBMISSIONS + token);
 }
