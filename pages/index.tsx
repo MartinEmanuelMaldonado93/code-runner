@@ -1,7 +1,6 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import useKeyPress from "../hooks/useKeyPress";
 import {
   ThemeEditorDropdown,
   LanguagesDropdown,
@@ -19,7 +18,7 @@ import { ThemeOption } from "types/ThemeOption";
 import axios from "axios";
 import { javascriptCodeDefault } from "constants/javascriptCodeDefault";
 import { safeDeEncodeFrom64, safeEncodeTo64, defineTheme } from "utils";
-import { DataOutput } from "types/dataOutput";
+import { DataOutput } from "types/DataOutput";
 import { showSuccessToast } from "ui_components/showSucces";
 import { showErrorToast } from "ui_components/showError";
 import { problems } from "constants/problems";

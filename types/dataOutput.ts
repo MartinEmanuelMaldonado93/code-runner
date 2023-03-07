@@ -5,8 +5,24 @@ export type DataOutput = {
   language_id: number;
   stdin: String64;
   expected_output: string | null;
-  stdout: string|null;
-  status_id: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+  stdout: string | null;
+  status_id:
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16;
   created_at: string;
   finished_at: unknown;
   time: string;
@@ -38,11 +54,11 @@ export type DataOutput = {
   language: Language;
 };
 export type Submission = {
-  language_id: number,
-  stdout: string,
-  status_id: 3,
-  stderr: String64 | null,
-  token: string,
+  language_id: number;
+  stdout: string;
+  status_id: 3;
+  stderr: String64 | null;
+  token: string;
 };
 export interface Language {
   id: number;

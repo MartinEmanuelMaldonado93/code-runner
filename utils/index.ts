@@ -1,13 +1,13 @@
 import { loader } from "@monaco-editor/react";
 import { ThemeOption } from "types/ThemeOption";
-import { String64 } from "types/dataOutput";
+import { String64 } from "types/DataOutput";
 
 export function safeEncodeTo64(str: string) {
   return Buffer.from(String(str)).toString("base64");
 }
 export function safeDeEncodeFrom64(str: string) {
-  // return atob(str); ** deprecated 
-  return Buffer.from(str,"base64").toString("utf-8");
+  // return atob(str); ** deprecated
+  return Buffer.from(str, "base64").toString("utf-8");
 }
 
 /** Change the theme through instance of editor */
