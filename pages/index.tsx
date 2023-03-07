@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   ThemeEditorDropdown,
@@ -10,23 +10,17 @@ import {
   Footer,
   OutputDetails,
   ConsoleDetails,
-} from "@components/index";
-import { languageOptions } from "constants/languageOptions";
-import { LanguageData } from "types/LanguageDropDown";
-import { OnChange } from "@monaco-editor/react";
-import { ThemeOption } from "types/ThemeOption";
-import axios from "axios";
-import { javascriptCodeDefault } from "constants/javascriptCodeDefault";
-import { safeDeEncodeFrom64, safeEncodeTo64, defineTheme } from "utils";
-import { DataOutput } from "types/DataOutput";
-import { showSuccessToast } from "ui_components/showSucces";
-import { showErrorToast } from "ui_components/showError";
-import { problems } from "constants/problems";
-import useLocalStorage from "hooks/useLocalStorage";
+  showErrorToast,
+  showSuccessToast,
+} from "@components";
+import { LanguageData, ThemeOption, DataOutput } from "@types";
+import { problems, languageOptions, javascriptCodeDefault } from "@constants";
+import { useLocalStorage } from "@hooks";
+import { defineTheme } from "@utils";
+import { getStatus, postCode } from "@api";
 
-const Landing = () => {
+const Home = () => {
   const [code, setCode] = useState<string>(javascriptCodeDefault);
-  const [customInput, setCustomInput] = useState("");
   const [outputData, setOutputData] = useState<DataOutput>();
   const [isProcessing, setIsProcessing] = useState<boolean>();
   const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
@@ -46,16 +40,12 @@ const Landing = () => {
   useEffect(
     () => {
       setThemePage(themePageStorage);
-      //check if is small device
-      if (window.innerWidth > 600) {
-        setModalChecked(false);
-      } else {
-        setModalChecked(true);
-      }
+      window.innerWidth > 600 ? setModalChecked(false) : setModalChecked(true);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
   // const enterPress = useKeyPress("Enter");
   // const ctrlPress = useKeyPress("Control");
 
@@ -67,63 +57,26 @@ const Landing = () => {
   //   }
   // }, [ctrlPress, enterPress]);
 
-  const onChange: OnChange = (codeStr, event) => {
-    setCode(codeStr ?? "");
-  };
   /** Send code to an API method POST */
-  const handleCompile = () => {
+  const handleSubmit = async () => {
     setIsProcessing(true);
-
-    const formData = {
-      language_id: language.id,
-      source_code: safeEncodeTo64(code),
-      stdin: safeEncodeTo64(customInput),
-    };
-    const options = {
-      method: "POST",
-      url:
-        "https://" +
-        process.env.NEXT_PUBLIC_APP_RAPID_API_HOST +
-        "/submissions",
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_APP_RAPID_API_KEY,
-        "X-RapidAPI-Host": process.env.NEXT_PUBLIC_APP_RAPID_API_HOST,
-      },
-      data: formData,
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        const token = response.data.token;
-        checkStatus(token);
-      })
-      .catch((err) => {
-        let error = err.response ? err.response.data : err;
-        setIsProcessing(false);
-        console.log(error);
-      });
-  };
-  const checkStatus = async (token: string) => {
-    const options = {
-      method: "GET",
-      url:
-        "https://" +
-        process.env.NEXT_PUBLIC_APP_RAPID_API_HOST +
-        "/submissions/" +
-        token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": process.env.NEXT_PUBLIC_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_APP_RAPID_API_KEY,
-      },
-    };
-
+    const response = await postCode({
+      code,
+      languageID: language.id,
+    });
     try {
-      const response = await axios.request(options);
+      const token = response.data.token;
+      checkStatus(token);
+    } catch (err: unknown) {
+      // let error = err.response ? err.response.data : err;
+      if (err instanceof Error) console.log(err.message, err);
+      setIsProcessing(false);
+    }
+  };
+
+  const checkStatus = async (token: string) => {
+    try {
+      const response = await getStatus(token);
       const dataOutput: DataOutput = response.data;
       let statusId = dataOutput.status.id;
 
@@ -147,7 +100,8 @@ const Landing = () => {
       console.log("err", err);
     }
   };
-  function handleThemeChange(theme: ThemeOption) {
+
+  const handleThemeChange = (theme: ThemeOption) => {
     //default themes
     if (["light", "vs-dark"].includes(theme.value)) {
       setThemeEditor(theme);
@@ -155,11 +109,12 @@ const Landing = () => {
     }
 
     defineTheme(theme); //.then(console.log);
-  }
-  function handleThemePage(themePage: ThemeOption) {
+  };
+
+  const handleThemePage = (themePage: ThemeOption) => {
     setThemePage(themePage);
     setThemeFromStorage(themePage); // the last theme selected
-  }
+  };
 
   return (
     <div
@@ -184,12 +139,7 @@ const Landing = () => {
           <ConsoleDetails outputData={outputData} />
         </label>
       </label>
-      <input
-        type='checkbox'
-        // checked={modalChecked}
-        id='my-modal'
-        className='modal-toggle'
-      />
+      <input type='checkbox' id='my-modal' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box'>
           <h3 className='font-bold text-lg'>
@@ -210,7 +160,7 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      {/* modals */}
+      {/* main page */}
       <div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
         <div className='w-full sm:w-auto grow select-none font-bold'>
           {" "}
@@ -230,13 +180,13 @@ const Landing = () => {
       </div>
       <div
         id='editorSection'
-        className='flex flex-wrap md:flex-nowrap px-4 py-2'
+        className='flex flex-wrap md:flex-nowrap py-2 px-6 sm:px-0'
       >
         <ProblemDescription problem={problems[0]} />
         <div className='w-full'>
           <CodeEditorWindow
             code={code}
-            onChange={onChange}
+            onChange={(value) => setCode(value ?? "")}
             language={language.value}
             theme={themeEditor.key}
           />
@@ -248,7 +198,7 @@ const Landing = () => {
             CONSOLE
           </label>
           <button
-            onClick={handleCompile}
+            onClick={handleSubmit}
             disabled={isProcessing}
             className={`btn btn-primary mr-8`}
           >
@@ -261,4 +211,4 @@ const Landing = () => {
     </div>
   );
 };
-export default Landing;
+export default Home;

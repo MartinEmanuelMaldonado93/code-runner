@@ -10,3 +10,5 @@ export { default as TestFailed } from './TestFailed';
 export { default as TestSucces } from './TestSucces';
 export * from './ThemeEditorDropDown';
 export * from './ThemePage';
+export * from './Toasts/showError';
+export * from './Toasts/showSucces';

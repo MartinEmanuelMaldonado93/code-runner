@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, FC } from "react";
+import React, { Dispatch, SetStateAction, FC, useId } from "react";
 import Select from "react-select";
 import { languageOptions } from "../constants/languageOptions";
 import { languageDropdownStyle } from "../constants/languageDropdownStyle";
@@ -12,9 +12,9 @@ const LanguagesDropdown: FC<props> = ({
   onSelectChange,
   language,
 }): JSX.Element => {
-  // function LanguagesDropdown({ onSelectChange }: props): JSX.Element {
   return (
     <Select
+      instanceId={useId()}
       placeholder='Filter By Category'
       isSearchable={true}
       isClearable={true}

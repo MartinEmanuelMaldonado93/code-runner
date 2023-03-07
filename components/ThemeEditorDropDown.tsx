@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useId, useState } from "react";
 import Select, { ActionMeta, MultiValue, SingleValue } from "react-select";
 import ThemesListJson from "monaco-themes/themes/themelist.json";
 import { ThemeOption } from "types/ThemeOption";
@@ -31,6 +31,7 @@ const ThemeEditorDropdown: FC<props> = ({ handleThemeChange, theme }) => {
   }
   return (
     <Select
+      instanceId={useId()}
       placeholder='Select Theme Editor'
       options={optionsMaped}
       onChange={onChange}

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useId, useState } from "react";
 import { languageDropdownStyle } from "constants/languageDropdownStyle";
 import Select, { ActionMeta, MultiValue, SingleValue } from "react-select";
 import { ThemeOption } from "types/ThemeOption";
@@ -28,6 +28,7 @@ const ThemePage: FC<props> = ({ handleThemePageChange, theme }) => {
   }
   return (
     <Select
+      instanceId={useId()}
       placeholder='Select Theme Page'
       options={optionsMaped}
       defaultValue={theme}
