@@ -1,7 +1,8 @@
 import Axios from "axios";
 import { addBaseInterceptors } from "./axiosInterceptors";
 
-if (!process.env.APP_RAPID_API_KEY) throw Error("APP_RAPID_API_KEY not defined");
+if (!process.env.NEXT_PUBLIC_APP_RAPID_API_KEY)
+  throw Error("APP_RAPID_API_KEY not defined");
 if (!process.env.NEXT_PUBLIC_APP_RAPID_API_BASE_URL)
   throw Error("API_URL not defined");
 if (!process.env.NEXT_PUBLIC_APP_RAPID_API_HOST)
@@ -12,7 +13,7 @@ export const judge0Instance = Axios.create({
   headers: {
     "content-type": "application/json",
     "Content-Type": "application/json",
-    "X-RapidAPI-Key": process.env.APP_RAPID_API_KEY,
+    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_APP_RAPID_API_KEY,
     "X-RapidAPI-Host": process.env.NEXT_PUBLIC_APP_RAPID_API_HOST,
   },
   params: { base64_encoded: "true", fields: "*" },
