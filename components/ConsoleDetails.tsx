@@ -1,5 +1,5 @@
 import { DataOutput } from "@types";
-import { safeDeEncodeFrom64 } from "utils";
+import { safeDeEncodeFrom64 } from "@utils";
 
 type props = {
   outputData?: DataOutput;
