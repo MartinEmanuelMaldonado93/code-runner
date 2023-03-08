@@ -14,32 +14,34 @@ import {
   showSuccessToast,
 } from "@components";
 import { LanguageData, ThemeOption, DataOutput } from "@types";
-import { problems, languageOptions, javascriptCodeDefault } from "@constants";
+import {
+  problems,
+  languageOptions,
+  defaultJavascriptCode,
+  defaultWhiteTheme,
+  defaultDarkTheme,
+} from "@constants";
 import { useLocalStorage } from "@hooks";
 import { defineTheme, safeEncodeTo64 } from "@utils";
 import { getStatus, postCode } from "@api";
-import axios from "axios";
 
 const Home = () => {
-  const [code, setCode] = useState<string>(javascriptCodeDefault);
+  const [code, setCode] = useState<string>(defaultJavascriptCode);
+  const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
+  const [themeEditor, setThemeEditor] =
+    useState<ThemeOption>(defaultWhiteTheme);
+  const [themePageStorage, setThemeFromStorage] = useLocalStorage(
+    "themePage",
+    defaultDarkTheme
+  );
+  const [themePage, setThemePage] = useState<ThemeOption>();
   const [outputData, setOutputData] = useState<DataOutput>();
   const [isProcessing, setIsProcessing] = useState<boolean>();
-  const [language, setLanguage] = useState<LanguageData>(languageOptions[0]);
-  const [themeEditor, setThemeEditor] = useState<ThemeOption>({
-    key: "vs-dark",
-    value: "vs-dark",
-    label: "vs-dark",
-  });
-  const [themePageStorage, setThemeFromStorage] = useLocalStorage("themePage", {
-    key: "0",
-    value: "light",
-    label: "light",
-  } satisfies ThemeOption);
-  const [themePage, setThemePage] = useState<ThemeOption>();
   const [modalChecked, setModalChecked] = useState<boolean>();
 
   useEffect(
     () => {
+      /** setThemePage to avoid hydration errors*/
       setThemePage(themePageStorage);
       window.innerWidth > 600 ? setModalChecked(false) : setModalChecked(true);
     },
@@ -65,24 +67,19 @@ const Home = () => {
       const response = await postCode({ code, languageID: language.id });
       const data = response.data;
       console.log(data);
+      checkStatus(data.token);
     } catch (error: any) {
       console.error(error.response.data);
     } finally {
       setIsProcessing(false);
     }
-    //   const token = response.data.token;
-    //   if (token) console.log(token);
-    //   // checkStatus(token);
-    // });
-    // const token = response.data.token;
-    // checkStatus(token);
   };
 
   const checkStatus = async (token: string) => {
     try {
       const response = await getStatus(token);
-      const dataOutput: DataOutput = response.data;
-      let statusId = dataOutput.status.id;
+      const compilationResult: DataOutput = response.data;
+      const statusId = compilationResult.status.id;
 
       if ([1, 2].includes(statusId)) {
         setTimeout(() => {
@@ -92,15 +89,15 @@ const Home = () => {
       }
 
       setIsProcessing(false);
-      if (statusId === 3) {
-        showSuccessToast(`Compiled Successfully!`);
-      } else {
-        showErrorToast();
-      }
-      setOutputData(dataOutput);
+
+      statusId === 3
+        ? showSuccessToast("Compiled Successfully!")
+        : showErrorToast();
+
+      setOutputData(compilationResult);
     } catch (err) {
       setIsProcessing(false);
-      showErrorToast("error in request");
+      showErrorToast("Error in request");
       console.log("err", err);
     }
   };

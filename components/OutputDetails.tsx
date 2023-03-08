@@ -1,5 +1,6 @@
 import { DataOutput } from "types/DataOutput";
-import { safeDeEncodeFrom64, safeEncodeTo64 } from "utils";
+import { safeDeEncodeFrom64 } from "@utils";
+
 type props = {
   outputDetails?: DataOutput;
 };

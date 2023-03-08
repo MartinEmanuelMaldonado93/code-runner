@@ -1,8 +1,8 @@
 import React, { FC, useId, useState } from "react";
 import Select, { ActionMeta, MultiValue, SingleValue } from "react-select";
 import ThemesListJson from "monaco-themes/themes/themelist.json";
-import { ThemeOption } from "types/ThemeOption";
-import { languageDropdownStyle } from "constants/languageDropdownStyle";
+import { ThemeOption } from "@types";
+import { languageDropdownStyle } from "@constants";
 
 type props = {
   theme?: ThemeOption;

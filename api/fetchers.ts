@@ -25,5 +25,5 @@ export function postCode({
 
 /** Check status of compilation */
 export function getStatus(token: string) {
-  return judge0Instance.get(routes.SUBMISSIONS + token);
+  return judge0Instance.get(routes.SUBMISSIONS + "/" + token);
 }

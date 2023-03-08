@@ -15,17 +15,18 @@ function ConsoleDetails({ outputData }: props) {
     );
 
   const output = () => {
+    // id > 3 has an error
     if (outputData.status_id > 3) {
-      // some error
       return (
         safeDeEncodeFrom64(outputData.message!) +
         "\n" +
         safeDeEncodeFrom64(outputData.stderr!)
       );
     }
+
     return safeDeEncodeFrom64(outputData.stdout || "");
   };
-
+  /** @returns Tailwind classes based on the error type */
   const classError = (error: typeof outputData.status_id) => {
     switch (error) {
       case 2:

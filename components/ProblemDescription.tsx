@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ProblemData } from "types/ProblemData";
+import { ProblemData } from "@types";
 
 type props = {
   // children: React.ReactNode,

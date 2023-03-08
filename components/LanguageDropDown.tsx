@@ -1,8 +1,7 @@
 import React, { Dispatch, SetStateAction, FC, useId } from "react";
+import { languageOptions, languageDropdownStyle } from "@constants";
+import { LanguageData } from "@types";
 import Select from "react-select";
-import { languageOptions } from "../constants/languageOptions";
-import { languageDropdownStyle } from "../constants/languageDropdownStyle";
-import { LanguageData } from "types/LanguageDropDown";
 
 type props = {
   onSelectChange: Dispatch<SetStateAction<LanguageData>>;

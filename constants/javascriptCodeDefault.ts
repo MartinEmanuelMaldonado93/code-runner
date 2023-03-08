@@ -1,4 +1,4 @@
-export const javascriptCodeDefault = ` 
+export const defaultJavascriptCode = ` 
 const binarySearch = (arr, target) => {
  return binarySearchHelper(arr, target, 0, arr.length - 1);
 };

@@ -1,5 +1,5 @@
 import { loader } from "@monaco-editor/react";
-import { ThemeOption } from "types/ThemeOption";
+import { ThemeOption } from "@types";
 
 /** Change the theme through instance of editor */
 export function defineTheme(themeSelected: ThemeOption) {
