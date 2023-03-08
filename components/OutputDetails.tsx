@@ -1,8 +1,8 @@
-import { dataOutput } from "@types";
+import { DataOutput } from "@types";
 import { safeDeEncodeFrom64 } from "@utils";
 
 type props = {
-  outputDetails?: dataOutput;
+  outputDetails?: DataOutput;
 };
 const OutputDetails = ({ outputDetails }: props) => {
   if (outputDetails === undefined)
