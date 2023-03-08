@@ -53,6 +53,7 @@ export type dataOutput = {
   status: Status;
   language: Language;
 };
+
 export type Submission = {
   language_id: number;
   stdout: string;
