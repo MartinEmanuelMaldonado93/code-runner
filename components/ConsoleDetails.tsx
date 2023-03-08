@@ -1,8 +1,8 @@
-import type { DataOutput } from "@types";
+import type { dataOutput } from "@types";
 import { safeDeEncodeFrom64 } from "@utils";
 
 type props = {
-  outputData?: DataOutput;
+  outputData?: dataOutput;
 };
 function ConsoleDetails({ outputData }: props) {
   if (!outputData)

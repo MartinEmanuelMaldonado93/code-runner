@@ -13,7 +13,7 @@ import {
   showErrorToast,
   showSuccessToast,
 } from "@components";
-import { LanguageData, ThemeOption, DataOutput } from "@types";
+import { LanguageData, ThemeOption, dataOutput } from "@types";
 import {
   problems,
   languageOptions,
@@ -35,7 +35,7 @@ const Home = () => {
     defaultDarkTheme
   );
   const [themePage, setThemePage] = useState<ThemeOption>();
-  const [outputData, setOutputData] = useState<DataOutput>();
+  const [outputData, setOutputData] = useState<dataOutput>();
   const [isProcessing, setIsProcessing] = useState<boolean>();
   const [modalChecked, setModalChecked] = useState<boolean>();
 
@@ -78,7 +78,7 @@ const Home = () => {
   const checkStatus = async (token: string) => {
     try {
       const response = await getStatus(token);
-      const compilationResult: DataOutput = response.data;
+      const compilationResult: dataOutput = response.data;
       const statusId = compilationResult.status.id;
 
       if ([1, 2].includes(statusId)) {

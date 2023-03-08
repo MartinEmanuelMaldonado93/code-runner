@@ -1,6 +1,6 @@
 import { Status } from "./Status";
 
-export type DataOutput = {
+export type dataOutput = {
   source_code: String64;
   language_id: number;
   stdin: String64;
