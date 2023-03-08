@@ -1,4 +1,4 @@
-import { type dataOutput } from "@types";
+import { type dataOutput } from "../types";
 import { safeDeEncodeFrom64 } from "@utils";
 
 type props = {
