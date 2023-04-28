@@ -1,9 +1,9 @@
-import { NavbarRunner } from '@components';
+import { NavbarPrototype } from '@components';
 
 function landing() {
 	return (
 		<div>
-			<NavbarRunner />
+			<NavbarPrototype />
 		</div>
 	);
 }
