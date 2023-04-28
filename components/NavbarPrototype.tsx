@@ -1,10 +1,8 @@
-function NavbarRunner() {
+function NavbarPrototype() {
 	return (
 		<div className='navbar bg-base-100'>
 			<div className='flex-1'>
-				<a className='btn btn-ghost normal-case text-xl'>
-					daisyUI
-				</a>
+				<a className='btn btn-ghost normal-case text-xl'>daisyUI</a>
 			</div>
 			<div className='flex-none'>
 				<ul className='menu menu-horizontal px-1'>
@@ -35,10 +33,7 @@ function NavbarRunner() {
 					</li>
 					<li>
 						<div className='dropdown dropdown-end'>
-							<label
-								tabIndex={0}
-								className='btn btn-ghost btn-circle avatar'
-							>
+							<label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
 								<div className='w-10 rounded-full'>
 									<img src='/images/stock/photo-1534528741775-53994a69daeb.jpg' />
 								</div>
@@ -50,9 +45,7 @@ function NavbarRunner() {
 								<li>
 									<a className='justify-between'>
 										Profile
-										<span className='badge'>
-											New
-										</span>
+										<span className='badge'>New</span>
 									</a>
 								</li>
 								<li>
@@ -69,4 +62,4 @@ function NavbarRunner() {
 		</div>
 	);
 }
-export default NavbarRunner;
+export default NavbarPrototype;

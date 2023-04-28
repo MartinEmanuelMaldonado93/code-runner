@@ -1,41 +1,38 @@
-import React, { FC, useEffect, useId, useState } from "react";
-import Select, { ActionMeta, MultiValue, SingleValue } from "react-select";
-import { ThemesPage, languageDropdownStyle } from "@constants";
-import { ThemeOption } from "@types";
+import React, { FC, useEffect, useId, useState } from 'react';
+import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import { ThemesPage, defaultDarkTheme, languageDropdownStyle } from '@constants';
+import { ThemeOption } from '@types';
+import { useStoreThemePage } from '@store';
+import { useLocalStorage } from '@hooks';
 
-type props = {
-  theme?: ThemeOption; // ! may trigger hydration err
-  handleThemePageChange(theme: ThemeOption): void;
-};
-const ThemePage = ({ handleThemePageChange, theme }: props) => {
-  const themesEntries: [string, string][] = Object.entries(ThemesPage);
-  const optionsMaped: ThemeOption[] = themesEntries.map(
-    ([Key, Name]) =>
-      ({
-        label: Name,
-        value: Name,
-        key: Key,
-      } satisfies ThemeOption)
-  );
+const ThemePage = () => {
+	const [themePageStorage, setThemeFromStorage] = useLocalStorage(
+		'themePage',
+		defaultDarkTheme
+	);
+	const state = useStoreThemePage();
+	const themesEntries = Object.entries(ThemesPage);
+	const optionsMaped = themesEntries.map(([Key, Name]) => ({
+		label: Name,
+		value: Name,
+		key: Key,
+	}));
 
-  function onChange(
-    newValue: SingleValue<ThemeOption> | MultiValue<ThemeOption>,
-    actionMeta: ActionMeta<ThemeOption>
-  ) {
-    const ThemeSelected = newValue as ThemeOption;
-    handleThemePageChange(ThemeSelected);
-  }
-  return (
-    <Select
-      instanceId={useId()}
-      placeholder='Select Theme Page'
-      options={optionsMaped}
-      defaultValue={theme}
-      value={theme}
-      styles={languageDropdownStyle}
-      onChange={onChange}
-    />
-  );
+	return (
+		<Select
+			instanceId={useId()}
+			placeholder='Select Theme Page'
+			options={optionsMaped}
+			defaultValue={state.theme}
+			value={state.theme}
+			styles={languageDropdownStyle}
+			onChange={(newValue) => {
+				const ThemeSelected = newValue as ThemeOption;
+				state.setTheme(ThemeSelected);
+				setThemeFromStorage(ThemeSelected);
+			}}
+		/>
+	);
 };
 
 export { ThemePage };

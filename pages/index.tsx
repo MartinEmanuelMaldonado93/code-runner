@@ -12,7 +12,7 @@ import {
 	ConsoleDetails,
 	showErrorToast,
 	showSuccessToast,
-	NavbarRunner,
+	
 } from '@components';
 import { LanguageData, ThemeOption, DataOutput } from '@types';
 import {
@@ -25,21 +25,22 @@ import {
 import { useLocalStorage } from '@hooks';
 import { defineTheme, safeEncodeTo64 } from '@utils';
 import { getStatus, postCode } from '@api';
-import { useStoreLanguage } from '@store';
+import { useStoreLanguage, useStoreThemeCode, useStoreThemePage } from '@store';
+import NavbarSelect from 'components/NavbarRunner';
 
 const Home = () => {
-	const [code, setCode] = useState<string>(defaultJavascriptCode);
-	const [language, setLanguage] = useState<LanguageData>(
-		languageOptions[0]
-	);
-	const stateLang = useStoreLanguage();
-	const [themeEditor, setThemeEditor] =
-		useState<ThemeOption>(defaultWhiteTheme);
 	const [themePageStorage, setThemeFromStorage] = useLocalStorage(
 		'themePage',
 		defaultDarkTheme
 	);
-	const [themePage, setThemePage] = useState<ThemeOption>();
+	const [code, setCode] = useState<string>(defaultJavascriptCode);
+	const stateLang = useStoreLanguage();
+	const stateThemePage = useStoreThemePage();
+	const stateThemeCode = useStoreThemeCode();
+
+	const [themeEditor, setThemeEditor] =
+		useState<ThemeOption>(defaultWhiteTheme);
+
 	const [outputData, setOutputData] = useState<DataOutput>();
 	const [isProcessing, setIsProcessing] = useState<boolean>();
 	const [modalChecked, setModalChecked] = useState<boolean>();
@@ -47,7 +48,8 @@ const Home = () => {
 	useEffect(
 		() => {
 			/** setThemePage to avoid hydration errors*/
-			setThemePage(themePageStorage);
+			// setThemePage(themePageStorage);
+			stateThemePage.setTheme(themePageStorage);
 			window.innerWidth > 600
 				? setModalChecked(false)
 				: setModalChecked(true);
@@ -112,24 +114,14 @@ const Home = () => {
 		}
 	};
 
-	const handleThemeChange = (theme: ThemeOption) => {
-		//default themes
-		if (['light', 'vs-dark'].includes(theme.value)) {
-			setThemeEditor(theme);
-			return;
-		}
-
-		defineTheme(theme); //.then(console.log);
-	};
-
 	const handleThemePage = (themePage: ThemeOption) => {
-		setThemePage(themePage);
+		// setThemePage(themePage);
 		setThemeFromStorage(themePage); // the last theme selected
 	};
 
 	return (
 		<div
-			data-theme={themePage ? themePage.label : 'light'}
+			data-theme={stateThemePage.theme.label ?? 'light'}
 			className='h-screen max-h-screen flex flex-col justify-between overflow-y-auto'
 		>
 			<ToastContainer
@@ -144,67 +136,34 @@ const Home = () => {
 				pauseOnHover
 			/>
 			{/* modals */}
-			<input
-				type='checkbox'
-				id='my-modal-4'
-				className='modal-toggle'
-			/>
+			<input type='checkbox' id='my-modal-4' className='modal-toggle' />
 			<label htmlFor='my-modal-4' className='modal cursor-pointer'>
 				<label className='modal-box relative' htmlFor=''>
 					<ConsoleDetails outputData={outputData} />
 				</label>
 			</label>
-			<input
-				type='checkbox'
-				id='my-modal'
-				className='modal-toggle'
-			/>
+			<input type='checkbox' id='my-modal' className='modal-toggle' />
 			<div className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg'>
 						Limited functionality in small devices 😅
 					</h3>
 					<p className='py-4'>
-						Feel free to run this on a laptop or your pc
-						desktop,
-						<span className='block'>
-							Thanks for your patience 🙌!!
-						</span>
+						Feel free to run this on a laptop or your pc desktop,
+						<span className='block'>Thanks for your patience 🙌!!</span>
 					</p>
 					<div className='modal-action'>
 						<label
 							htmlFor='my-modal'
 							className='btn'
-							onClick={() =>
-								setModalChecked((p) => !p)
-							}
+							onClick={() => setModalChecked((p) => !p)}
 						>
 							Yay!
 						</label>
 					</div>
 				</div>
 			</div>
-			{/* main page */}
-			<div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
-				<div className='w-full sm:w-auto grow select-none font-bold'>
-					{' '}
-					{'{'} Code Runner ⚡ {'}'}
-				</div>
-				<div className='btn-group'>
-					<button className='btn'>«</button>
-					<button className='btn'>Page 1</button>
-					<button className='btn'>»</button>
-				</div>
-				<LanguagesDropdown />
-				<ThemePage
-					theme={themePage}
-					handleThemePageChange={handleThemePage}
-				/>
-				<ThemeEditorDropdown
-					theme={themeEditor}
-					handleThemeChange={handleThemeChange}
-				/>
-			</div>
+			<NavbarSelect />
 			<div
 				id='editorSection'
 				className='flex flex-wrap md:flex-nowrap py-2 px-6 sm:px-0'
@@ -214,17 +173,14 @@ const Home = () => {
 					<CodeEditorWindow
 						code={code}
 						onChange={(value) => setCode(value ?? '')}
-						language={language.value}
-						theme={themeEditor.key}
+						language={stateLang.language.value}
+						theme={stateThemeCode.themeCode.key}
 					/>
 				</div>
 			</div>
 			<div id='outputSection'>
 				<div className='flex justify-end gap-9 my-2'>
-					<label
-						htmlFor='my-modal-4'
-						className='btn btn-active'
-					>
+					<label htmlFor='my-modal-4' className='btn btn-active'>
 						CONSOLE
 					</label>
 					<button
@@ -235,12 +191,15 @@ const Home = () => {
 						{isProcessing ? 'Processing...' : 'Submit'}
 					</button>
 				</div>
-				{outputData ? (
-					<OutputDetails outputDetails={outputData} />
-				) : null}
+				{outputData ? <OutputDetails outputDetails={outputData} /> : null}
 			</div>
 			<Footer />
 		</div>
 	);
 };
 export default Home;
+
+function Wrapper({ children }: { children: JSX.Element[] | JSX.Element }) {
+	return <div>{children}</div>;
+}
+ 

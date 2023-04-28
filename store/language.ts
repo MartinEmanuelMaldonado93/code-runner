@@ -1,14 +1,8 @@
 import { create } from 'zustand';
-import { LanguageData, ThemeOption, DataOutput } from '@types';
+import { LanguageData } from '@types';
 import {
 	languageOptions,
 } from '@constants';
-
-const useStore = create((set) => ({
-	bears: 0,
-	increasePopulation: () => set((state: { bears: number; }) => ({ bears: state.bears + 1 })),
-	removeAllBears: () => set({ bears: 0 }),
-}));
 
 interface LanguageStore {
 	language: LanguageData,
@@ -16,5 +10,5 @@ interface LanguageStore {
 }
 export const useStoreLanguage = create<LanguageStore>()(set => ({
 	language: languageOptions[0],
-	setLanguage: (newLanguage: LanguageData) => set((state) => ({ language: state.language}))
+	setLanguage: (newLanguage: LanguageData) => set(() => ({ language: newLanguage }))
 }))

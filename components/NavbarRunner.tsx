@@ -1,7 +1,11 @@
+import { LanguagesDropdown } from "./LanguageSelect";
+import { ThemeEditorDropdown } from "./ThemeCodeSelect";
+import { ThemePage } from "./ThemePage";
+
 type props = {
-	children: React.ReactNode | React.ReactNode[];
+	children?: JSX.Element | JSX.Element[];
 };
-function NavbarRunner({ children }: props) {
+function NavbarSelect({ children }: props) {
 	return (
 		<div className='navbar flex-wrap justify-center min-h-max sm:h-full text-xl normal-case gap-2 bg-base-200 '>
 			<div className='w-full sm:w-auto grow select-none font-bold'>
@@ -13,8 +17,10 @@ function NavbarRunner({ children }: props) {
 				<button className='btn'>Page 1</button>
 				<button className='btn'>»</button>
 			</div>
-			{children? children: null}
+			<LanguagesDropdown />
+			<ThemePage />
+			<ThemeEditorDropdown />
 		</div>
 	);
 }
-export default NavbarRunner;
+export default NavbarSelect;
