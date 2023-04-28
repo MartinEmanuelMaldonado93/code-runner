@@ -3,7 +3,7 @@ export type ProblemData = {
   difficulty: "easy" | "medium" | "hard";
   description: string;
   examples: Examples[];
-  constrains: string[];
+  constraints: string[];
 };
 /**
  * @field `output` is the expected result

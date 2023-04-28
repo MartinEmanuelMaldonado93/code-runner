@@ -26,8 +26,10 @@ function ConsoleDetails({ outputData }: props) {
 
     return safeDeEncodeFrom64(outputData.stdout || "");
   };
+
+  type errorStatusId = typeof outputData.status_id;
   /** @returns Tailwind classes based on the error type */
-  const classError = (error: typeof outputData.status_id) => {
+  const classError = (error: errorStatusId) => {
     switch (error) {
       case 2:
         return "text-orange-500";

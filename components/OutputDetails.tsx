@@ -5,28 +5,13 @@ type props = {
   outputDetails?: DataOutput;
 };
 const OutputDetails = ({ outputDetails }: props) => {
-  if (outputDetails === undefined)
-    return <div className='grid stats shadow'></div>;
+  if (!outputDetails) return <div className='grid stats shadow'></div>;
 
   const isError = outputDetails.status.id > 3;
-  console.log(outputDetails);
+
   return (
     <>
-      {isError ? (
-        <div
-          tabIndex={0}
-          className='collapse collapse-plus border border-base-300 bg-base-100 rounded-box'
-        >
-          <div className='collapse-title text-xl font-medium'>Console</div>
-          <div className='collapse-content'>
-            <p>
-              {outputDetails.compile_output
-                ? safeDeEncodeFrom64(outputDetails.compile_output)
-                : null}
-            </p>
-          </div>
-        </div>
-      ) : null}
+      {isError && <ErrorOutputCompile outputDetails={outputDetails} />}
       <div className='grid stats shadow'>
         <span className='stat place-items-center'>
           <div className='stat-title'>Memory:</div>
@@ -53,4 +38,22 @@ const OutputDetails = ({ outputDetails }: props) => {
   );
 };
 
+const ErrorOutputCompile = ({ outputDetails }: props) => {
+  if (!outputDetails) return <div className='grid stats shadow'></div>;
+
+  return (
+    <div
+      tabIndex={0}
+      className='collapse collapse-plus border border-base-300 bg-base-100 rounded-box'
+    >
+      <div className='collapse-title text-xl font-medium'>Console</div>
+      <div className='collapse-content'>
+        <p>
+          {outputDetails.compile_output &&
+            safeDeEncodeFrom64(outputDetails.compile_output)}
+        </p>
+      </div>
+    </div>
+  );
+};
 export { OutputDetails };

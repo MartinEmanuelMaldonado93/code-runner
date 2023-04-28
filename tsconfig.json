@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@store": ["store"],
       "@components": ["components"],
       "@constants": ["constants"],
       "@types": ["types"],

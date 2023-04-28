@@ -2,11 +2,10 @@ import React, { FC } from "react";
 import { ProblemData } from "@types";
 
 type props = {
-  // children: React.ReactNode,
   problem: ProblemData;
 };
-// function ProblemDescription({children}:props) {
-const ProblemDescription: FC<props> = ({ problem }) => {
+
+const ProblemDescription = ({ problem }: props) => {
   function difficultyBadge(problem: ProblemData) {
     switch (problem.difficulty) {
       case "easy":
@@ -17,6 +16,7 @@ const ProblemDescription: FC<props> = ({ problem }) => {
         return "badge-error";
     }
   }
+
   return (
     <>
       <div
@@ -46,8 +46,8 @@ const ProblemDescription: FC<props> = ({ problem }) => {
         <div>
           <h4>Constrains</h4>
           <ul>
-            {problem.constrains.map((constrain) => (
-              <li key={Math.random()}>{constrain}</li>
+            {problem.constraints.map((constraint) => (
+              <li key={Math.random()}>{constraint}</li>
             ))}
           </ul>
         </div>

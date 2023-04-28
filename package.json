@@ -20,7 +20,8 @@
     "react-icons": "^4.7.1",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.8",

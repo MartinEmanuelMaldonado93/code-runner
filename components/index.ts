@@ -3,6 +3,7 @@ export * from './ConsoleDetails';
 export * from './CustomInput';
 export * from './Footer';
 export * from './LanguageDropDown';
+export { default as NavbarRunner } from './Navbar';
 export * from './OutputDetails';
 export * from './ProblemDescription';
 export { default as Submit } from './Submit';

@@ -1,16 +1,10 @@
-import React, { Dispatch, SetStateAction, FC, useId } from "react";
+import React, { useId } from "react";
 import { languageOptions, languageDropdownStyle } from "@constants";
-import { LanguageData } from "@types";
 import Select from "react-select";
+import { useStoreLanguage } from "@store";
 
-type props = {
-  onSelectChange: Dispatch<SetStateAction<LanguageData>>;
-  language: LanguageData;
-};
-const LanguagesDropdown: FC<props> = ({
-  onSelectChange,
-  language,
-}): JSX.Element => {
+const LanguagesDropdown = () => {
+  const state = useStoreLanguage();
   return (
     <Select
       instanceId={useId()}
@@ -18,12 +12,11 @@ const LanguagesDropdown: FC<props> = ({
       isSearchable={true}
       isClearable={true}
       options={languageOptions}
-      defaultValue={languageOptions[0]}
-      value={language}
+      value={state.language}
       onChange={(selectedOption) => {
         if (!selectedOption) return;
 
-        onSelectChange(selectedOption);
+        state.setLanguage(selectedOption);
       }}
       styles={languageDropdownStyle}
     />

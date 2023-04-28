@@ -1,15 +1,14 @@
-import { FC } from "react";
 import Editor, { EditorProps } from "@monaco-editor/react";
 
 interface props extends EditorProps {
   code?: string;
 }
-const CodeEditorWindow: FC<props> = ({
+const CodeEditorWindow = ({
   onChange,
   language = "javascript",
   theme,
   code = "/// Happy coding",
-}) => {
+}: props) => {
   return (
     <div className='border-black rounded-md w-full h-full min-h-[70vh] shadow-4xl'>
       <Editor

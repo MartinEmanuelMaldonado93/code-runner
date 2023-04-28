@@ -7,7 +7,7 @@ type props = {
   theme?: ThemeOption; // ! may trigger hydration err
   handleThemePageChange(theme: ThemeOption): void;
 };
-const ThemePage: FC<props> = ({ handleThemePageChange, theme }) => {
+const ThemePage = ({ handleThemePageChange, theme }: props) => {
   const themesEntries: [string, string][] = Object.entries(ThemesPage);
   const optionsMaped: ThemeOption[] = themesEntries.map(
     ([Key, Name]) =>

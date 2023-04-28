@@ -8,9 +8,8 @@ type props = {
   theme?: ThemeOption;
   handleThemeChange(theme: ThemeOption): void;
 };
-const ThemeEditorDropdown: FC<props> = ({ handleThemeChange, theme }) => {
+const ThemeEditorDropdown = ({ handleThemeChange, theme }: props) => {
   const themesEntries: [string, string][] = Object.entries(ThemesListJson);
-
   const optionsMaped: ThemeOption[] = themesEntries.map(
     ([Key, Name]) =>
       ({
@@ -29,6 +28,7 @@ const ThemeEditorDropdown: FC<props> = ({ handleThemeChange, theme }) => {
     handleThemeChange(ThemeSelected);
     setEditorName(ThemeSelected);
   }
+
   return (
     <Select
       instanceId={useId()}
