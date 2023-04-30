@@ -1,6 +1,10 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
-import { ThemesPage, defaultDarkTheme, languageDropdownStyle } from '@constants';
+import {
+	ThemesPage,
+	defaultDarkTheme,
+	languageDropdownStyle,
+} from '@constants';
 import { ThemeOption } from '@types';
 import { useStoreThemePage } from '@store';
 import { useLocalStorage } from '@hooks';
@@ -11,6 +15,11 @@ const ThemePage = () => {
 		defaultDarkTheme
 	);
 	const state = useStoreThemePage();
+	
+	useEffect(() => {
+		state.setTheme(themePageStorage);
+	}, []);
+
 	const themesEntries = Object.entries(ThemesPage);
 	const optionsMaped = themesEntries.map(([Key, Name]) => ({
 		label: Name,

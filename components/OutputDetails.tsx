@@ -11,7 +11,7 @@ const OutputDetails = ({ outputDetails }: props) => {
 
   return (
     <>
-      {isError && <ErrorOutputCompile outputDetails={outputDetails} />}
+      {!!isError && <ErrorOutputCompile outputDetails={outputDetails} />}
       <div className='grid stats shadow'>
         <span className='stat place-items-center'>
           <div className='stat-title'>Memory:</div>
@@ -49,7 +49,7 @@ const ErrorOutputCompile = ({ outputDetails }: props) => {
       <div className='collapse-title text-xl font-medium'>Console</div>
       <div className='collapse-content'>
         <p>
-          {outputDetails.compile_output &&
+          {!!outputDetails.compile_output &&
             safeDeEncodeFrom64(outputDetails.compile_output)}
         </p>
       </div>

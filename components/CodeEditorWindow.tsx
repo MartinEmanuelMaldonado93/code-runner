@@ -1,27 +1,20 @@
-import Editor, { EditorProps } from "@monaco-editor/react";
-import { useStoreThemeCode } from "@store";
-import { defineTheme } from "@utils";
+import { defaultJavascriptCode } from '@constants';
+import { useStoreThemeCode } from '@store';
+import { useState } from 'react';
+import Editor, { EditorProps } from '@monaco-editor/react';
 
-interface props extends EditorProps {
-  code?: string;
-}
-const CodeEditorWindow = ({
-  onChange,
-  language = "javascript",
-  code = "/// Happy coding",
-}: props) => {
-  const state = useStoreThemeCode();
+const CodeEditorWindow = (props: EditorProps) => {
+	const state = useStoreThemeCode();
+	const [code, setCode] = useState(defaultJavascriptCode);
 
-  return (
-		<div className='border-black rounded-md w-full h-full min-h-[70vh] shadow-4xl'>
-			<Editor
-				height={'100%'}
-				language={language}
-				value={code}
-				theme={state.themeCode.key}
-				onChange={onChange}
-			/>
-		</div>
+	return (
+		<Editor
+			{...props}
+			language='javascript'
+			value={code}
+			theme={state.themeCode.key}
+			onChange={(value) => value && setCode(value)}
+		/>
 	);
 };
 export { CodeEditorWindow };
