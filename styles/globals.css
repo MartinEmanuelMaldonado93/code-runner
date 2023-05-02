@@ -32,4 +32,7 @@ body {
   .rotate-x {
 	transform: rotateX(30deg);
   }
+  .navbar-w {
+	width: calc(100% - 16px);
+  }
 }

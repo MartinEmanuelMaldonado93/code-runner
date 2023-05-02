@@ -14,11 +14,10 @@ function NavbarLanding() {
 				.sort((a, b) => (Math.random() > 0.5 ? -1 : 1))
 				.join('')
 		);
-		// console.log(userName);
 	}, []);
 
 	return (
-		<div className='navbar justify-center fixed  z-10 bg-neutral text-neutral-content'>
+		<div className='navbar justify-center fixed navbar-w z-10 bg-neutral text-neutral-content'>
 			<div className='bg-neutral max-w-7xl w-full'>
 				<div className='flex-1'>
 					<Link href='/' className='btn btn-ghost normal-case text-xl'>

@@ -25,7 +25,7 @@ function Hero() {
 						<div className='h-3 w-3 rounded-full bg-green-300'></div>
 						<div className='h-3 w-3 rounded-full bg-blue-500'></div>
 					</div>
-					<CodeEditorWindow className='overflow-y-hidden h-[400px] ' />
+					<CodeEditorWindow className='overflow-y-hidden h-[400px] rounded-md' />
 				</div>
 			</div>
 		</div>

@@ -5,6 +5,7 @@ export * from './Footer';
 export { default as GeneralOverView } from './GeneralOverView';
 export { default as Hero } from './Hero';
 export * from './LanguageSelect';
+export { default as ListFeatures } from './ListFeatures';
 export { default as NavbarCodeEditor } from './NavbarCodeEditor';
 export { default as NavbarLanding } from './NavbarLanding';
 export * from './OutputDetails';

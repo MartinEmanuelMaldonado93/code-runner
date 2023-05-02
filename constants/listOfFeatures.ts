@@ -1,0 +1,2 @@
+export const Features = ["Code in real time with live preview enabled.", "Install dependencies. We know you need axios.", "Create files and components on the go. Instantly.",
+	"Real time changes reflect as and when you change your code.", "Editor settings, theme settings, interview settings.", "Choose from a list of 40+ programming languages", "Change theme to fit your style. We love the Algochurn theme though."] 
