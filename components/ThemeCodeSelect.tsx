@@ -1,4 +1,4 @@
-import React, { LegacyRef, Ref, RefObject, createRef, useEffect, useId, useRef } from 'react';
+import React, {  useEffect, useId, useRef } from 'react';
 import { GroupBase } from 'react-select/dist/declarations/src/types';
 import ThemesListJson from 'monaco-themes/themes/themelist.json';
 import { ThemeOption } from '@types';
@@ -10,7 +10,7 @@ import Select from 'react-select';
 
 const ThemeCodeSelect = () => {
 	const state = useStoreThemeCode();
-	const ref = useRef<typeof Select<any, false, GroupBase<any>> >();
+	const ref = useRef<any>();
 	const [langStorage, setLangStorage] = useLocalStorage('themePage', {
 		key: '0',
 		value: 'light',
@@ -25,7 +25,7 @@ const ThemeCodeSelect = () => {
 
 	useEffect(() => {
 		if (ref.current) {
-			ref.current.setValue(langStorage);
+			ref.current.prototype.setValue(langStorage);
 		}
 	}, [!!ref.current]);
 
