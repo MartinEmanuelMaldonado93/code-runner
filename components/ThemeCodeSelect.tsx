@@ -25,7 +25,7 @@ const ThemeCodeSelect = () => {
 
 	useEffect(() => {
 		if (ref.current) {
-			ref.current.prototype.setValue(langStorage);
+			ref.current.setValue(langStorage);
 		}
 	}, [!!ref.current]);
 
