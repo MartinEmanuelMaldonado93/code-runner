@@ -1,5 +1,5 @@
 import { LanguagesDropdown } from './LanguageSelect';
-import { ThemeEditorDropdown } from './ThemeCodeSelect';
+// import { ThemeEditorDropdown } from './ThemeCodeSelect';
 import { ThemePage } from './ThemePage';
 
 type props = {
@@ -19,7 +19,7 @@ function NavbarCodeEditor({ children }: props) {
 			</div>
 			<LanguagesDropdown />
 			<ThemePage />
-			<ThemeEditorDropdown />
+			{/* <ThemeEditorDropdown /> */}
 		</div>
 	);
 }

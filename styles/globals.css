@@ -8,3 +8,28 @@ body {
 .min-h-sceen {
   min-height: 100vh;
 }
+
+@layer components {
+  .new-pulse {
+    @apply shadow-xl;
+    animation: pulse 3s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+       @apply shadow-primary;
+    }
+    50% {
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+  }
+  /* .shadow-primary {
+	@apply sh
+  } */
+  .perspective {
+	perspective: 500px;
+  }
+  .rotate-x {
+	transform: rotateX(30deg);
+  }
+}

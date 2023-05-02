@@ -1,13 +1,21 @@
-import React, { FC, useId, useState } from 'react';
-import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import React, { LegacyRef, Ref, RefObject, createRef, useEffect, useId, useRef } from 'react';
+import { GroupBase } from 'react-select/dist/declarations/src/types';
 import ThemesListJson from 'monaco-themes/themes/themelist.json';
 import { ThemeOption } from '@types';
 import { languageDropdownStyle } from '@constants';
 import { useStoreThemeCode } from '@store';
-import { defineTheme } from '@utils';
+import { defineEditorTheme } from '@utils';
+import { useLocalStorage } from '@hooks';
+import Select from 'react-select';
 
 const ThemeCodeSelect = () => {
 	const state = useStoreThemeCode();
+	const ref = useRef<typeof Select<any, false, GroupBase<any>> >();
+	const [langStorage, setLangStorage] = useLocalStorage('themePage', {
+		key: '0',
+		value: 'light',
+		label: 'light',
+	});
 	const themesEntries = Object.entries(ThemesListJson);
 	const optionsMaped = themesEntries.map(([Key, Name]) => ({
 		label: Name,
@@ -15,23 +23,28 @@ const ThemeCodeSelect = () => {
 		key: Key,
 	}));
 
+	useEffect(() => {
+		if (ref.current) {
+			ref.current.setValue(langStorage);
+		}
+	}, []);
+
 	return (
 		<Select
+			ref={ref}
+			className='inline'
 			instanceId={useId()}
-			placeholder='Select Theme Editor'
+			placeholder='Your favourite theme'
 			options={optionsMaped}
 			onChange={(newValue) => {
-				const ThemeSelected = newValue as ThemeOption;
-				state.setThemeCode(ThemeSelected);
-				// if (['light', 'vs-dark'].includes(state.themeCode.value)) {
-				// }
-				defineTheme(ThemeSelected);
+				const themeSelected = newValue as ThemeOption;
+				state.setThemeCode(themeSelected);
+				defineEditorTheme(themeSelected);
+				setLangStorage(themeSelected);
 			}}
-			defaultValue={state.themeCode}
-			value={state.themeCode}
 			styles={languageDropdownStyle}
 		/>
 	);
 };
 
-export { ThemeCodeSelect as ThemeEditorDropdown };
+export { ThemeCodeSelect };

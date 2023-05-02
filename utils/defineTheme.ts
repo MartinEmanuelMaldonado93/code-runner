@@ -2,7 +2,7 @@ import { loader } from "@monaco-editor/react";
 import { ThemeOption } from "@types";
 
 /** Change the theme through instance of editor */
-export function defineTheme(themeSelected: ThemeOption) {
+export function defineEditorTheme(themeSelected: ThemeOption) {
   const promiseAll = (resolve: (value?: unknown) => void) => {
     Promise.all([
       loader.init(),

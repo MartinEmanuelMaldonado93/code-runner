@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-	NavbarCodeEditor,
 	Footer,
-	showErrorToast,
-	showSuccessToast,
+	GeneralOverView,
 	NavbarLanding,
 	Hero,
 } from '@components';
@@ -16,7 +14,7 @@ import { useStoreLanguage, useStoreThemeCode, useStoreThemePage } from '@store';
 const Home = () => {
 
 	return (
-		<div className='h-screen max-h-screen flex flex-col justify-between overflow-y-auto'>
+		<div className='h-screen max-h-screen flex flex-col justify-between items-center overflow-y-auto'>
 			<ToastContainer
 				position='top-right'
 				autoClose={2000}
@@ -30,6 +28,7 @@ const Home = () => {
 			/>
 			<NavbarLanding />
 			<Hero />
+			<GeneralOverView />
 			<Footer />
 		</div>
 	);
