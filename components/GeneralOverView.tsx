@@ -10,7 +10,7 @@ function GeneralOverView() {
 				preparing for software engineering interviews. <br/> These platforms allow you
 				to practice coding challenges and problems in an environment that
 				simulates the actual coding experience, with real-time feedback on your
-				code's correctness and efficiency.
+				code`&apos;`s correctness and efficiency.
 			</p>
 		</article>
 		<div className="p-6 perspective">

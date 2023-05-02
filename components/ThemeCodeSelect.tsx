@@ -27,7 +27,7 @@ const ThemeCodeSelect = () => {
 		if (ref.current) {
 			ref.current.setValue(langStorage);
 		}
-	}, []);
+	}, [!!ref.current]);
 
 	return (
 		<Select

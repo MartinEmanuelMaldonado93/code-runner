@@ -1,5 +1,6 @@
 import { ThemeCodeSelect } from '@components';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 function NavbarLanding() {
@@ -7,7 +8,7 @@ function NavbarLanding() {
 	const userLogin = true;
 
 	useEffect(() => {
-		setUserName(
+		setUserName((userName) =>
 			userName
 				.split('')
 				.sort((a, b) => (Math.random() > 0.5 ? -1 : 1))
@@ -20,27 +21,33 @@ function NavbarLanding() {
 		<div className='navbar justify-center fixed  z-10 bg-neutral text-neutral-content'>
 			<div className='bg-neutral max-w-7xl w-full'>
 				<div className='flex-1'>
-					<a className='btn btn-ghost normal-case text-xl'>
+					<Link href='/' className='btn btn-ghost normal-case text-xl'>
 						Code Runner {'</>'}
-					</a>
+					</Link>
 				</div>
 				<span className='px-2'>Themes 🔥</span>
 				<ThemeCodeSelect />
 				<div className='flex-none bg-neutral text-neutral-content'>
 					<ul className='menu menu-horizontal px-1'>
 						<li>
-							<a
+							<Link
 								className='underline'
 								href='https://twitter.com'
 								target='_blank'
+								rel="noreferrer"
 							>
 								Tweet
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a className='' href='https://twitter.com' target='_blank'>
+							<Link
+								className=''
+								href='https://twitter.com'
+								target='_blank'
+								rel="noreferrer"
+							>
 								top 75
-							</a>
+							</Link>
 						</li>
 						<li tabIndex={0}>
 							<a>
@@ -76,10 +83,14 @@ function NavbarLanding() {
 									</span>
 									<ul className='bg-base-100 text-neutral  -translate-x-[50%] p-2 shadow rounded-box w-36'>
 										<li>
-											<a className='justify-between'>Profile</a>
+											<a className='justify-between'>
+												Profile
+											</a>
 										</li>
 										<li>
-											<a>Settings</a>
+											<a>
+												Settings
+											</a>
 										</li>
 										<li>
 											<a>Logout</a>

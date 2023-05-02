@@ -8,7 +8,7 @@ import { problems } from '@constants';
 import { DataOutput } from '@types';
 import { useState } from 'react';
 
-function editor() {
+function EditorComponent() {
 	const [outputData, setOutputData] = useState<DataOutput>();
 	const [isProcessing, setIsProcessing] = useState<boolean>();
 	const [modalChecked, setModalChecked] = useState<boolean>();
@@ -65,4 +65,4 @@ function editor() {
 		</>
 	);
 }
-export default editor;
+export default EditorComponent;
