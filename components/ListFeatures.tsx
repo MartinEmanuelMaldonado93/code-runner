@@ -25,6 +25,7 @@ function ListFeatures() {
 									type='checkbox'
 									checked
 									className='checkbox checkbox-primary pointer-events-none'
+									readOnly
 								/>
 							</label>
 						</div>
