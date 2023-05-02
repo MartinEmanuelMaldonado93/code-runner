@@ -1,5 +1,6 @@
 import { cardContent, cardContentList } from '@constants';
 import { uuid } from '@utils';
+import { Transition, Variant, VariantLabels, Variants, motion } from 'framer-motion';
 
 function SolutionsSection() {
 	return (
@@ -20,9 +21,9 @@ function SolutionsSection() {
 			<div className='mt-8 text-base-200 flex gap-4 justify-center perspective p-8'>
 				{cardContentList.map((item) => (
 					<LittleCard
+						key={uuid()}
 						title={item.title}
 						paragraph={item.paragraph}
-						key={uuid()}
 					/>
 				))}
 			</div>
@@ -32,11 +33,22 @@ function SolutionsSection() {
 export default SolutionsSection;
 
 function LittleCard(content: cardContent) {
+	const springConfig : Transition = {
+		type: 'spring',
+		stiffness: 200,
+		damping: 9,
+	};
+
 	return (
-		<div className='bg-base-100 text-info-content border rounded-md p-4 max-w-sm transition-all duration-500 
-		  hover:scale-110'>
+		<motion.div
+			className='bg-base-100 text-info-content border rounded-md p-4 max-w-sm scale-90'
+			transition={springConfig}
+			whileHover={{ scale: 1.1 }}
+		>
 			<h4 className='text-xl'>{content.title}</h4>
-			<p className='overflow-hidden text-ellipsis'>{content.paragraph}</p>
-		</div>
+			<p className='overflow-hidden text-ellipsis'>
+				{content.paragraph}
+			</p>
+		</motion.div>
 	);
 }

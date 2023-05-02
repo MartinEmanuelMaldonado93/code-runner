@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -9,9 +8,6 @@ import {
 	ListFeatures,
 	SolutionsSection,
 } from '@components';
-import { DataOutput } from '@types';
-import { getStatus } from '@api';
-import { useStoreLanguage, useStoreThemeCode, useStoreThemePage } from '@store';
 
 const Home = () => {
 
@@ -29,7 +25,7 @@ const Home = () => {
 				pauseOnHover
 			/>
 			<NavbarLanding />
-			<Hero />
+			{/* <Hero /> */}
 			<GeneralOverView />
 			<ListFeatures />
 			<SolutionsSection />
