@@ -7,6 +7,7 @@ import {
 	NavbarLanding,
 	Hero,
 	ListFeatures,
+	SolutionsSection,
 } from '@components';
 import { DataOutput } from '@types';
 import { getStatus } from '@api';
@@ -31,6 +32,7 @@ const Home = () => {
 			<Hero />
 			<GeneralOverView />
 			<ListFeatures />
+			<SolutionsSection />
 			<Footer />
 		</div>
 	);

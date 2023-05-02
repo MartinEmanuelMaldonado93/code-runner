@@ -10,6 +10,7 @@ export { default as NavbarCodeEditor } from './NavbarCodeEditor';
 export { default as NavbarLanding } from './NavbarLanding';
 export * from './OutputDetails';
 export * from './ProblemDescription';
+export { default as SolutionsSection } from './SolutionsSection';
 export { default as Submit } from './Submit';
 export { default as TestFailed } from './TestFailed';
 export { default as TestSucces } from './TestSucces';

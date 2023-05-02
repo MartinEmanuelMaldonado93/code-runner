@@ -4,6 +4,7 @@ export * from './javascriptCodeDefault';
 export * from './languageDropdownStyle';
 export * from './languageOptions';
 export * from './listOfFeatures';
+export * from './littleCards';
 export * from './problems';
 export * from './status';
 export * from './statusNames';

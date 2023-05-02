@@ -30,7 +30,7 @@ body {
 	perspective: 500px;
   }
   .rotate-x {
-	transform: rotateX(30deg);
+	rotate : x 30deg;
   }
   .navbar-w {
 	width: calc(100% - 16px);
