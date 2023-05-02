@@ -25,7 +25,7 @@ const Home = () => {
 				pauseOnHover
 			/>
 			<NavbarLanding />
-			{/* <Hero /> */}
+			<Hero />
 			<GeneralOverView />
 			<ListFeatures />
 			<SolutionsSection />
