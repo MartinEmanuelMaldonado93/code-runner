@@ -5,7 +5,7 @@ import { RefObject, useRef } from 'react';
 
 function SolutionsSection() {
 	return (
-		<div className='mx-8 w-full px-24 py-10 bg-base-content'>
+		<div className='w-full mx-8 mt-9 py-10 px-4 md:px-24 bg-base-content'>
 			<article className='prose max-w-3xl flex flex-col mt-6'>
 				<h2 className='text-base-100 text-4xl'>
 					There exist multiple solutions and a variety of
@@ -20,7 +20,7 @@ function SolutionsSection() {
 				</p>
 			</article>
 			<motion.div
-				className='flex gap-8 justify-center px-8 py-20 text-base-200'
+				className='flex flex-wrap md:flex-nowrap gap-8 justify-center px-8 py-20 text-base-200'
 				variants={{
 					hidden: { opacity: 0 },
 					show: {

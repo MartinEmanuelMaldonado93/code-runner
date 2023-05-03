@@ -15,7 +15,7 @@ function ListFeatures() {
 		},
 	};
 	return (
-		<div className='mx-8 mt-9 w-full px-24 py-10 bg-base-300'>
+		<div className='w-full mx-8 mt-9 py-10 px-4 md:px-24 bg-base-300'>
 			<article className='prose max-w-3xl flex flex-col mt-6'>
 				<h2 className='text-info-content text-4xl'>
 					Interactive Code Editor To Solve Problems In Real
@@ -36,7 +36,7 @@ function ListFeatures() {
 						initial='hidde'
 						whileInView='show'
 						key={uuid()}
-						className='flex gap-2 mt-4'
+						className='flex items-center gap-2 mt-4'
 					>
 						<div className='form-control inline cursor-none'>
 							<label className='label cursor-pointer inline'>
@@ -51,7 +51,7 @@ function ListFeatures() {
 						<div className='badge badge-primary'>
 							Frontend
 						</div>
-						<span className='mx-4 text-base-content font-bold'>
+						<span className='mx-4 text-base-content text-sm font-semibold md:text-lg md:font-bold'>
 							{item}
 						</span>
 					</motion.div>
