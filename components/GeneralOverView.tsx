@@ -14,7 +14,7 @@ function GeneralOverView() {
 			</p>
 		</article>
 		<div className="p-6 perspective">
-			<Image className="rotate-x shadow-md shadow-primary" alt="editor_example" height={600} width={600} src={"/leetcode.png"}/>
+			<Image className="transition-all duration-300 rotate-x hover:rotate-x-initial  shadow-md shadow-primary" alt="editor_example" height={600} width={600} src={"/leetcode.png"}/>
 		</div>
 		</div>
 	);

@@ -1,6 +1,7 @@
 import { cardContent, cardContentList } from '@constants';
+import { Transition, motion } from 'framer-motion';
 import { uuid } from '@utils';
-import { Transition, Variant, VariantLabels, Variants, motion } from 'framer-motion';
+import { RefObject, useRef } from 'react';
 
 function SolutionsSection() {
 	return (
@@ -18,7 +19,21 @@ function SolutionsSection() {
 					ones.
 				</p>
 			</article>
-			<div className='mt-8 text-base-200 flex gap-4 justify-center perspective p-8'>
+			<motion.div
+				className='flex gap-8 justify-center px-8 py-20 text-base-200'
+				variants={{
+					hidden: { opacity: 0 },
+					show: {
+						opacity: 1,
+						transition: {
+							delayChildren: 0.3,
+							staggerChildren: 0.28,
+						},
+					},
+				}}
+				initial={'hidden'}
+				whileInView={'show'}
+			>
 				{cardContentList.map((item) => (
 					<LittleCard
 						key={uuid()}
@@ -26,24 +41,27 @@ function SolutionsSection() {
 						paragraph={item.paragraph}
 					/>
 				))}
-			</div>
+			</motion.div>
 		</div>
 	);
 }
 export default SolutionsSection;
 
 function LittleCard(content: cardContent) {
-	const springConfig : Transition = {
+	const springConfig: Transition = {
 		type: 'spring',
-		stiffness: 200,
-		damping: 9,
+		stiffness: 90,
 	};
-
+	const item = {
+		show: { opacity: 1, translateX: 0 },
+		hidden: { opacity: 0, translateX: '-50%' },
+	};
 	return (
 		<motion.div
-			className='bg-base-100 text-info-content border rounded-md p-4 max-w-sm scale-90'
+			className='bg-base-100 text-info-content border rounded-md p-4 max-w-[250px] aspect-video 
+			scale-90 transition-shadow duration-300 hover:shadow-primary hover:shadow-lg '
 			transition={springConfig}
-			whileHover={{ scale: 1.1 }}
+			variants={item}
 		>
 			<h4 className='text-xl'>{content.title}</h4>
 			<p className='overflow-hidden text-ellipsis'>

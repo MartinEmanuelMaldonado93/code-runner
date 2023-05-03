@@ -4,14 +4,13 @@ import { Variant, Variants, motion } from 'framer-motion';
 
 function ListFeatures() {
 	const childVariant = {
-		hidde: { translateX: '-60%', opacity: 0 },
+		hidde: { translateY: '80%', opacity: 0 },
 		show: {
-			translateX: 0,
+			translateY: 0,
 			opacity: 1,
 			transition: {
 				type: 'spring',
-				stiffness: 100,
-				damping: 9,
+				stiffness: 20,
 			},
 		},
 	};

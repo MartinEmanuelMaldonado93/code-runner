@@ -32,6 +32,9 @@ body {
   .rotate-x {
 	rotate : x 30deg;
   }
+  .rotate-x-initial {
+	rotate: x -0deg;
+  }
   .navbar-w {
 	width: calc(100% - 16px);
   }

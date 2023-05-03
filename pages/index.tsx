@@ -10,7 +10,6 @@ import {
 } from '@components';
 
 const Home = () => {
-
 	return (
 		<div className='h-screen max-h-screen flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden'>
 			<ToastContainer
