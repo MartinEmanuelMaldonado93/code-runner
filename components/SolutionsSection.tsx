@@ -26,7 +26,7 @@ function SolutionsSection() {
 					show: {
 						opacity: 1,
 						transition: {
-							delayChildren: 0.3,
+							delayChildren: 0.9,
 							staggerChildren: 0.28,
 						},
 					},

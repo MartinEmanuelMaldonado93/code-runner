@@ -1,33 +1,29 @@
-import React, {  useEffect, useId, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 import { GroupBase } from 'react-select/dist/declarations/src/types';
 import ThemesListJson from 'monaco-themes/themes/themelist.json';
 import { ThemeOption } from '@types';
-import { languageDropdownStyle } from '@constants';
+import {
+	LS_KEYS,
+	defaultCodeEditorDark,
+	languageDropdownStyle,
+} from '@constants';
 import { useStoreThemeCode } from '@store';
-import { defineEditorTheme } from '@utils';
+import { defineEditorTheme, rawThemesEditorToSelectValues } from '@utils';
 import { useLocalStorage } from '@hooks';
 import Select from 'react-select';
 
-const ThemeCodeSelect = () => {
+const ThemeCodeEditorSelect = () => {
 	const state = useStoreThemeCode();
 	const ref = useRef<any>();
-	const [langStorage, setLangStorage] = useLocalStorage('themePage', {
-		key: '0',
-		value: 'light',
-		label: 'light',
-	});
-	const themesEntries = Object.entries(ThemesListJson);
-	const optionsMaped = themesEntries.map(([Key, Name]) => ({
-		label: Name,
-		value: Name,
-		key: Key,
-	}));
+	const [langStorage, setLangStorage] = useLocalStorage(
+		LS_KEYS.codeEditor,
+		defaultCodeEditorDark
+	);
+	const optionsMaped = rawThemesEditorToSelectValues(ThemesListJson);
 
 	useEffect(() => {
-		if (ref.current) {
-			ref.current.setValue(langStorage);
-		}
-	}, [!!ref.current]);
+		!!ref.current && ref.current.setValue(langStorage);
+	}, []);
 
 	return (
 		<Select
@@ -47,4 +43,4 @@ const ThemeCodeSelect = () => {
 	);
 };
 
-export { ThemeCodeSelect };
+export { ThemeCodeEditorSelect as ThemeCodeSelect };

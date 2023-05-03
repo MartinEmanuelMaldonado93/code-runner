@@ -3,7 +3,7 @@ import { languageOptions, languageDropdownStyle } from '@constants';
 import Select from 'react-select';
 import { useStoreLanguage } from '@store';
 
-const LanguagesDropdown = () => {
+const CodeEditorLanguages = () => {
 	const state = useStoreLanguage();
 	return (
 		<Select
@@ -22,4 +22,4 @@ const LanguagesDropdown = () => {
 	);
 };
 
-export { LanguagesDropdown };
+export { CodeEditorLanguages as LanguagesDropdown };

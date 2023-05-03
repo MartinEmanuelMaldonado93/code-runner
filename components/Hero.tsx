@@ -19,7 +19,7 @@ function Hero() {
 					</p>
 					<button className='btn btn-primary'>Get Started</button>
 				</div>
-				<div className='border border-neutral w-full rounded-md new-pulse'>
+				<div className='border border-neutral w-full rounded-md bg-neutral new-pulse'>
 					<div className='flex h-8  items-center space-x-2 bg-neutral px-2'>
 						<div className='h-3 w-3 rounded-full bg-red-500'></div>
 						<div className='h-3 w-3 rounded-full bg-green-300'></div>

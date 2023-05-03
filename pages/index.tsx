@@ -8,10 +8,22 @@ import {
 	ListFeatures,
 	SolutionsSection,
 } from '@components';
+import { useStoreThemePage } from '@store';
+import { useState, useEffect } from 'react';
 
 const Home = () => {
+	const state = useStoreThemePage();
+	const [currTheme, setCurrTheme] = useState<string | null>(null);
+
+	useEffect(() => {
+		setCurrTheme(state.theme.label);
+	}, [state.theme]);
+
 	return (
-		<div className='h-screen max-h-screen flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden'>
+		<div
+			data-theme={currTheme ? currTheme : 'dark'}
+			className='h-screen max-h-screen flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden'
+		>
 			<ToastContainer
 				position='top-right'
 				autoClose={2000}

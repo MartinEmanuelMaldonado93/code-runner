@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { LanguageData, ThemeOption, DataOutput } from '@types';
+import { ThemeOption } from '@types';
 import {
-	defaultWhiteTheme,
+	defaultCodeEditorWhite,
 } from '@constants';
 
 interface ThemeStore {
@@ -9,6 +9,6 @@ interface ThemeStore {
 	setThemeCode: (newTheme: ThemeOption) => void
 }
 export const useStoreThemeCode = create<ThemeStore>()(set => ({
-	themeCode: defaultWhiteTheme,
+	themeCode: defaultCodeEditorWhite,
 	setThemeCode: (newThemeCode: ThemeOption) => set(() => ({ themeCode: newThemeCode }))
 }))

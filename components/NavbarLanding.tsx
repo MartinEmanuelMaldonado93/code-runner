@@ -1,4 +1,4 @@
-import { ThemeCodeSelect } from '@components';
+import { ThemeCodeSelect, ThemePage } from '@components';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -26,6 +26,7 @@ function NavbarLanding() {
 				</div>
 				<span className='px-2'>Themes 🔥</span>
 				<ThemeCodeSelect />
+				<ThemePage />
 				<div className='flex-none bg-neutral text-neutral-content'>
 					<ul className='menu menu-horizontal px-1'>
 						<li>

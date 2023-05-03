@@ -1,13 +1,14 @@
+import { LS_KEYS, defaultCodeEditorDark } from '@constants';
+import { useLocalStorage } from '@hooks';
 import { useStoreThemePage } from '@store';
 import { Html, Head, Main, NextScript } from 'next/document';
+import { useEffect, useState } from 'react';
 
 export default function Document() {
-	const stateThemePage = useStoreThemePage();
-	
 	return (
 		<Html>
 			<Head />
-			<body data-theme={stateThemePage.theme.label ?? 'dark'}>
+			<body id='body'>
 				<Main />
 				<NextScript />
 			</body>

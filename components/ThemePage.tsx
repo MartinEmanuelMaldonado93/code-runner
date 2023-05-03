@@ -1,31 +1,28 @@
-import React, { FC, useEffect, useId, useState } from 'react';
-import Select, { ActionMeta, MultiValue, SingleValue } from 'react-select';
+import React, { useEffect, useId } from 'react';
+import Select from 'react-select';
 import {
+	LS_KEYS,
 	ThemesPage,
-	defaultDarkTheme,
+	defaultCodeEditorDark,
 	languageDropdownStyle,
 } from '@constants';
 import { ThemeOption } from '@types';
 import { useStoreThemePage } from '@store';
 import { useLocalStorage } from '@hooks';
+import { rawThemesPageToSelectValues } from '@utils';
 
 const ThemePage = () => {
-	const [themePageStorage, setThemeFromStorage] = useLocalStorage(
-		'themePage',
-		defaultDarkTheme
-	);
 	const state = useStoreThemePage();
-	
+	const [themePageStorage, setThemeFromStorage] = useLocalStorage(
+		LS_KEYS.landingPage,
+		defaultCodeEditorDark
+	);
+
 	useEffect(() => {
-		state.setTheme(themePageStorage);
+		!!state && state.setTheme(themePageStorage);
 	}, []);
 
-	const themesEntries = Object.entries(ThemesPage);
-	const optionsMaped = themesEntries.map(([Key, Name]) => ({
-		label: Name,
-		value: Name,
-		key: Key,
-	}));
+	const optionsMaped = rawThemesPageToSelectValues(ThemesPage);
 
 	return (
 		<Select
