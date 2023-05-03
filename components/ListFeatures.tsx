@@ -17,11 +17,11 @@ function ListFeatures() {
 	return (
 		<div className='w-full mx-8 mt-9 py-10 px-4 md:px-24 bg-base-300'>
 			<article className='prose max-w-3xl flex flex-col mt-6'>
-				<h2 className='text-info-content text-4xl'>
+				<h2 className='text-secondary-content text-4xl'>
 					Interactive Code Editor To Solve Problems In Real
 					Time
 				</h2>
-				<p className='max-w-xl info-content'>
+				<p className='max-w-xl info'>
 					Introducing the all-new interactive code editor
 					window like in VSCode! With this cutting-edge
 					concept, coding feels just like you&apos;re
@@ -51,7 +51,7 @@ function ListFeatures() {
 						<div className='badge badge-primary'>
 							Frontend
 						</div>
-						<span className='mx-4 text-base-content text-sm font-semibold md:text-lg md:font-bold'>
+						<span className='mx-4 text-secondary-content text-sm font-semibold md:text-lg md:font-bold'>
 							{item}
 						</span>
 					</motion.div>

@@ -17,7 +17,7 @@ function NavbarLanding() {
 	}, []);
 
 	return (
-		<div className='min-h-[10rem] w-full'>
+		<div className='min-h-[10rem] sm:min-h-[8rem] md:min-h-[6rem] w-full'>
 			<div className='navbar justify-center fixed sm:navbar-w z-10 bg-neutral text-neutral-content'>
 				<div className='flex flex-wrap bg-neutral max-w-7xl w-full'>
 					<div className='flex-1 w-full text-center'>

@@ -12,7 +12,7 @@ const CodeEditorWindow = (props: EditorProps) => {
 	return (
 		<Editor
 			{...props}
-			width={Math.min(width-30, 400)}//pixels of rigth side with max width
+			width={Math.min(width-30, 600)}//pixels of rigth side with max width
 			language='javascript'
 			value={code}
 			theme={state.themeCode.key}

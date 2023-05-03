@@ -23,9 +23,7 @@ body {
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
   }
-  /* .shadow-primary {
-	@apply sh
-  } */
+
   .perspective {
 	perspective: 500px;
   }

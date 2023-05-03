@@ -4,9 +4,9 @@ function Hero() {
 	return (
 		<div className='hero md:min-h-screen bg-base-200'>
 			<div className='hero-content flex flex-wrap  h-full '>
-				<div className='max-w-sm'>
-					<h1 className='text-2xl md:text-5xl font-bold'>Getting into IT!</h1>
-					<p className='py-6 max-w-[240px]'>
+				<div className='max-w-sm sm:max-w-lg'>
+					<h1 className='text-2xl sm:text-3xl md:text-4xl font-bold'>Getting into IT!</h1>
+					<p className='py-6 max-w-[240px] sm:max-w-[340px]'>
 						Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
 						excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
 						a id nisi.
