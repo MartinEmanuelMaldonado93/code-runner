@@ -6,11 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 function GeneralOverView() {
 	const ref = useRef<HTMLDivElement>(null);
 	const entry = useIntersectionObserver(ref, { threshold: 0.2 });
-	const [isVisible, setIsVisible] = useState(false);
-
-	useEffect(() => {
-		setIsVisible((p) => !p);
-	}, [!!entry?.isIntersecting]);
+	const isVisible = !!entry?.isIntersecting;
 
 	const variants: Variants = {
 		hidde: { opacity: 0, scale: 0.5 },
