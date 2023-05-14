@@ -10,3 +10,6 @@ export const defaultCodeEditorWhite: ThemeOption = {
   value: "light",
   label: "light",
 };
+
+export const defaultPureDark: ThemeOption = { key: '1', label: 'dark', value: 'dark' };
+export const defaultBrilliantDark: ThemeOption = { "label": "Brilliance Black", "value": "Brilliance Black", "key": "brilliance-black" };
