@@ -16,7 +16,7 @@ const CodeEditorWindow = (props: EditorProps) => {
 			language='javascript'
 			value={code}
 			theme={state.themeCode.key}
-			onChange={(value) => value && setCode(value)}
+			onChange={(value) => !!value && setCode(value)}
 		/>
 	);
 };

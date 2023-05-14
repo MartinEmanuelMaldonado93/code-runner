@@ -1,12 +1,16 @@
 import { useIntersectionObserver } from '@hooks';
 import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function GeneralOverView() {
 	const ref = useRef<HTMLDivElement>(null);
-	const entry = useIntersectionObserver(ref, {});
-	const isVisible = entry?.isIntersecting;
+	const entry = useIntersectionObserver(ref, { threshold: 0.2 });
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		setIsVisible((p) => !p);
+	}, [!!entry?.isIntersecting]);
 
 	const variants: Variants = {
 		hidde: { opacity: 0, scale: 0.5 },
@@ -16,6 +20,7 @@ function GeneralOverView() {
 			transition: { delay: 0.5, type: 'spring', stiffness: 60 },
 		},
 	};
+
 	return (
 		<div className='mx-8'>
 			<article className='prose w-full max-w-3xl flex flex-col items-center mt-6'>
@@ -31,14 +36,14 @@ function GeneralOverView() {
 			<motion.div
 				variants={variants}
 				initial={'hidde'}
-				animate={isVisible && 'show'}
+				animate={isVisible ? 'show' : 'hidde'}
 				ref={ref}
 				className='p-6 perspective w-auto h-auto flex justify-center'
 			>
 				<Image
 					className='transition-all duration-300 rotate-x hover:rotate-x-initial shadow-sm hover:shadow-lg hover:shadow-primary shadow-primary'
 					alt='editor_example'
-					height={500}
+					height={600}
 					width={500}
 					src={'/leetcode.png'}
 				/>
