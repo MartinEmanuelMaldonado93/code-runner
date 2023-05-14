@@ -16,7 +16,7 @@ function Hero() {
 					</p>
 					<button className='btn btn-primary'>Get Started</button>
 				</div>
-				<motion.div layout className='min-h-[350px] md:mx-0 border border-neutral rounded-md bg-neutral new-pulse'>
+				<motion.div layout className='sm:min-h-[350px] md:mx-0 border border-neutral rounded-md bg-neutral new-pulse'>
 					<div className='w-full  flex h-8  items-center bg-neutral px-2'>
 						<div className='h-3 w-3 rounded-full bg-red-500'></div>
 						<div className='h-3 w-3 rounded-full bg-green-300'></div>

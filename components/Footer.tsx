@@ -3,7 +3,7 @@ import { BsGithub, BsLinkedin, BsTwitter } from 'react-icons/bs';
 function Footer() {
 	return (
 		<div className='flex justify-center w-full bg-neutral'>
-			<footer className='footer   p-4 max-w-7xl text-neutral-content'>
+			<footer className='footer items-center justify-items-center sm:items-start  p-4 max-w-7xl text-neutral-content'>
 				<p>
 					Martin Emanuel Maldonado © {new Date().getUTCFullYear()} - All right
 					reserved

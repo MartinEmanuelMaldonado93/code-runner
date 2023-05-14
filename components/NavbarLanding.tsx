@@ -1,20 +1,25 @@
 import { ThemeCodeSelect, ThemePage } from '@components';
+import { Variants, motion } from 'framer-motion';
+import { useRef, useState } from 'react';
 import multiavatar from '@multiavatar/multiavatar';
-import { motion, useScroll } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type } from 'os';
-import { createElement, useEffect, useRef, useState } from 'react';
 
 function NavbarLanding() {
+	const [isOpen, setIsOpen] = useState(false);
 	const userLogin = true;
-	const ref = useRef<HTMLLIElement>(null);
 	let svgCode = '',
 		avatarData = 'random user name';
 	svgCode = multiavatar(avatarData);
-	// useEffect(() => {
-	// }, []);
 
+	const itemVariants: Variants = {
+		open: {
+			opacity: 1,
+			y: 0,
+			transition: { type: 'spring', stiffness: 300, damping: 24 },
+		},
+		closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+	};
 	return (
 		<div className='nav-sticky w-full z-10 bg-neutral text-neutral-content'>
 			<div className='flex flex-wrap justify-evenly bg-neutral max-w-7xl w-full'>
@@ -24,7 +29,7 @@ function NavbarLanding() {
 					</Link>
 				</div>
 				<div className='hidden sm:flex items-center'>
-					<span className='px-2 block text-center'>Themes 🔥</span>
+					<span className=' px-2 sm:block text-center'>Themes 🔥</span>
 					<ThemeCodeSelect />
 					<ThemePage />
 				</div>
@@ -50,7 +55,7 @@ function NavbarLanding() {
 								top 75
 							</Link>
 						</li>
-						<li tabIndex={0}>
+						<li tabIndex={0} className='hidden md:block'>
 							<a>
 								News
 								<svg
@@ -72,19 +77,13 @@ function NavbarLanding() {
 								</li>
 							</ul>
 						</li>
-						<li
-							dangerouslySetInnerHTML={{ __html: svgCode }}
-							className='avatar'
-						></li>
 						{!!userLogin && (
 							<div className='menu menu-horizontal rounded-box'>
 								<li tabIndex={0} className=''>
-									<span className='w-16 rounded-full'>
-										<svg viewBox='0 0 231 231'>
-											{' '}
-											<path></path>
-										</svg>
-									</span>
+									<span
+										className='w-16 rounded-full avatar'
+										dangerouslySetInnerHTML={{ __html: svgCode }}
+									></span>
 									<ul className='bg-base-100 text-neutral  -translate-x-[50%] p-2 shadow rounded-box w-36'>
 										<li>
 											<a className='justify-between'>Profile</a>
@@ -101,6 +100,66 @@ function NavbarLanding() {
 						)}
 					</ul>
 				</div>
+
+				<motion.div
+					className='py-3 sm:hidden'
+					initial={false}
+					animate={isOpen ? 'open' : 'closed'}
+				>
+					<motion.div
+						className='flex justify-evenly text-center'
+						whileTap={{ scale: 0.95 }}
+						onClick={() => setIsOpen(!isOpen)}
+					>
+						<motion.div
+							className='text-white'
+							variants={{
+								open: { rotate: 180 },
+								closed: { rotate: 0 },
+							}}
+							transition={{ duration: 0.2 }}
+							style={{ originX: '50%' }}
+						>
+							<svg fill='white' width='15' height='15' viewBox='0 0 20 20'>
+								<path d='M0 7 L 20 7 L 10 16' />
+							</svg>
+						</motion.div>
+					</motion.div>
+					<motion.div
+						layout
+						className='sm:flex items-center pb-3'
+						variants={{
+							open: {
+								clipPath: 'inset(0% 0% 0% 0% round 10px)',
+								height: '8.5rem',
+								transition: {
+									type: 'spring',
+									bounce: 0,
+									duration: 0.7,
+									delayChildren: 0.3,
+									staggerChildren: 0.05,
+								},
+							},
+							closed: {
+								clipPath: 'inset(10% 50% 90% 50% round 10px)',
+								height: '0px',
+								transition: {
+									type: 'spring',
+									bounce: 0,
+									duration: 0.3,
+								},
+							},
+						}}
+					>
+						<span className='hidden px-2 sm:block text-center'>Themes 🔥</span>
+						<motion.div variants={itemVariants}>
+							<ThemeCodeSelect />
+						</motion.div>
+						<motion.div variants={itemVariants}>
+							<ThemePage />
+						</motion.div>
+					</motion.div>
+				</motion.div>
 			</div>
 		</div>
 	);

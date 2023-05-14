@@ -10,6 +10,7 @@ import { ThemeOption } from '@types';
 import { useStoreThemePage } from '@store';
 import { useLocalStorage } from '@hooks';
 import { rawThemesPageToSelectValues } from '@utils';
+import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
 
 const ThemePage = () => {
 	const state = useStoreThemePage();
@@ -17,15 +18,17 @@ const ThemePage = () => {
 		LS_KEYS.landingPage,
 		defaultCodeEditorDark
 	);
-
-	useEffect(() => {
-		!!state && state.setTheme(themePageStorage);
-	}, []);
-
 	const optionsMaped = rawThemesPageToSelectValues(ThemesPage);
 
+	useEffect(() => !!state && state.setTheme(themePageStorage), []);
+
+	const filterOptions = (
+		option: FilterOptionOption<ThemeOption>,
+		inputValue: string
+	) => option.label.toLowerCase().includes(inputValue.toLowerCase());
+
 	return (
-		<Select
+		<Select<ThemeOption>
 			instanceId={useId()}
 			placeholder='Select Theme Page'
 			options={optionsMaped}
@@ -33,10 +36,18 @@ const ThemePage = () => {
 			value={state.theme}
 			styles={languageDropdownStyle}
 			onChange={(newValue) => {
-				const ThemeSelected = newValue as ThemeOption;
+				if (!newValue) return;
+
+				const { key, label, value } = newValue satisfies ThemeOption;
+				if (!(key || label || value)) return;
+
+				const ThemeSelected = newValue;
 				state.setTheme(ThemeSelected);
 				setThemeFromStorage(ThemeSelected);
 			}}
+			isSearchable
+			isClearable
+			filterOption={filterOptions}
 		/>
 	);
 };

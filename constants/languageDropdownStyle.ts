@@ -28,7 +28,7 @@ export const languageDropdownStyle:
       lineHeight: "1.75rem",
       width: "100%",
       background: "#fff",
-      borderRadius: ".5rem",
+      borderRadius: ".5rem", 
       ":hover": {
         backgroundColor: "rgb(243 244 246)",
         color: "#000",
