@@ -21,6 +21,7 @@ const Home = () => {
 
 	return (
 		<div
+			id='home'
 			data-theme={currTheme ? currTheme : 'dark'}
 			className='h-screen max-h-screen flex flex-col justify-between items-center overflow-y-auto overflow-x-hidden'
 		>

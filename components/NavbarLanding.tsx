@@ -1,16 +1,38 @@
 import { ThemeCodeSelect, ThemePage } from '@components';
 import { Variants, motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import multiavatar from '@multiavatar/multiavatar';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useScrollDirection } from '@hooks';
 
 function NavbarLanding() {
-	const [isOpen, setIsOpen] = useState(false);
 	const userLogin = true;
-	let svgCode = '',
-		avatarData = 'random user name';
-	svgCode = multiavatar(avatarData);
+	let avatarData = 'random user name';
+	let svgCode = multiavatar(avatarData);
+
+	const [isOpen, setIsOpen] = useState(false);
+	const [scrolledToTop, setScrolledToTop] = useState(true);
+
+	const direction = 'up'; //useScrollDirection({ initialDirection: 'up'});
+
+	const handleScroll = () => {
+		const { scrollY, pageYOffset } = window;
+		console.log('scrolling', scrollY, pageYOffset);
+		// setScrolledToTop(window.scrollY < 50);
+	};
+
+	useEffect(() => {
+		console.log('efect');
+		// const page = document.getElementById('home');
+		const page = window.document;
+		page &&
+			page.addEventListener<'scroll'>('scroll', handleScroll);
+
+		return () => {
+			page && page.removeEventListener<'scroll'>('scroll', handleScroll);
+		};
+	}, []);
 
 	const itemVariants: Variants = {
 		open: {
@@ -20,8 +42,23 @@ function NavbarLanding() {
 		},
 		closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
 	};
+	const container: Variants = {
+		hidde: {
+			opacity: 0,
+			translateY: '-100%',
+		},
+		show: {
+			opacity: 1,
+			translateY: '0',
+		},
+	};
 	return (
-		<div className='nav-sticky w-full z-10 bg-neutral text-neutral-content'>
+		<motion.div
+			variants={container}
+			initial='show'
+			animate={'show'}
+			className='nav-sticky w-full z-10 bg-neutral text-neutral-content'
+		>
 			<div className='flex flex-wrap justify-evenly bg-neutral max-w-7xl w-full'>
 				<div className='flex-1 md:flex-grow-0 w-full text-center my-1'>
 					<Link href='/' className='btn btn-ghost normal-case'>
@@ -100,9 +137,8 @@ function NavbarLanding() {
 						)}
 					</ul>
 				</div>
-
 				<motion.div
-					className='py-3 sm:hidden'
+					className='py-2 sm:hidden'
 					initial={false}
 					animate={isOpen ? 'open' : 'closed'}
 				>
@@ -120,22 +156,22 @@ function NavbarLanding() {
 							transition={{ duration: 0.2 }}
 							style={{ originX: '50%' }}
 						>
-							<svg fill='white' width='15' height='15' viewBox='0 0 20 20'>
+							<svg fill='white' width='25' height='25' viewBox='0 0 20 20'>
 								<path d='M0 7 L 20 7 L 10 16' />
 							</svg>
 						</motion.div>
 					</motion.div>
 					<motion.div
 						layout
-						className='sm:flex items-center pb-3'
+						className='sm:flex items-center'
 						variants={{
 							open: {
 								clipPath: 'inset(0% 0% 0% 0% round 10px)',
 								height: '8.5rem',
 								transition: {
 									type: 'spring',
-									bounce: 0,
-									duration: 0.7,
+									bounce: 0.4,
+									// duration: 0.7,
 									delayChildren: 0.3,
 									staggerChildren: 0.05,
 								},
@@ -161,7 +197,7 @@ function NavbarLanding() {
 					</motion.div>
 				</motion.div>
 			</div>
-		</div>
+		</motion.div>
 	);
 }
 export default NavbarLanding;
