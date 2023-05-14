@@ -26,7 +26,7 @@ function SolutionsSection() {
 					show: {
 						opacity: 1,
 						transition: {
-							delayChildren: 0.9,
+							delayChildren: 0.3,
 							staggerChildren: 0.28,
 						},
 					},
@@ -50,11 +50,11 @@ export default SolutionsSection;
 function LittleCard(content: cardContent) {
 	const springConfig: Transition = {
 		type: 'spring',
-		stiffness: 90,
+		stiffness: 50,
 	};
 	const item = {
-		show: { opacity: 1, translateX: 0 },
-		hidden: { opacity: 0, translateX: '-50%' },
+		hidden: { opacity: 0, translateY: '50%' },
+		show: { opacity: 1, translateY: 0 },
 	};
 	return (
 		<motion.div

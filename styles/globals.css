@@ -9,6 +9,19 @@ body {
   min-height: 100vh;
 }
 
+.nav-sticky {
+  position: sticky;
+  top:0;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar svg{
+  width: 40px;
+  aspect-ratio: 1;
+  padding: 1px;
+}
+
 @layer components {
   .new-pulse {
     @apply shadow-xl;

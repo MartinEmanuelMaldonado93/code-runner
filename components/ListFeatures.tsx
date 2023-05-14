@@ -1,16 +1,17 @@
 import { Features } from '@constants';
 import { uuid } from '@utils';
-import { Variant, Variants, motion } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
 
 function ListFeatures() {
-	const childVariant = {
+	const childVariant: Variants = {
 		hidde: { translateY: '80%', opacity: 0 },
 		show: {
 			translateY: 0,
 			opacity: 1,
 			transition: {
 				type: 'spring',
-				stiffness: 20,
+				stiffness: 70,
+				delay: 0.3,
 			},
 		},
 	};
@@ -36,7 +37,7 @@ function ListFeatures() {
 						initial='hidde'
 						whileInView='show'
 						key={uuid()}
-						className='flex items-center gap-2 mt-4'
+						className='flex items-center gap-2 mt-4 overflow-y-hidden'
 					>
 						<div className='form-control inline cursor-none'>
 							<label className='label cursor-pointer inline'>
